@@ -54,9 +54,9 @@ class BaseFileContent extends BaseContent implements FileContent {
   }
 
   @override
-  MutableMapping toMap() {
+  MutableMapping<String, dynamic> toMap() {
     // call wrapper to serialize 'data' & 'key"
-    return _wrapper.toMap();
+    return _wrapper.toMap() as MutableMapping<String, dynamic>;
   }
 
   @override
@@ -114,7 +114,7 @@ class ImageFileContent extends BaseFileContent implements ImageContent {
       : super.from(ContentType.IMAGE, data, filename, url, password);
 
   @override
-  MutableMapping toMap() {
+  MutableMapping<String, dynamic> toMap() {
     // serialize 'thumbnail'
     var img = _thumbnail;
     if (img != null && !containsKey('thumbnail')) {
@@ -189,7 +189,7 @@ class VideoFileContent extends BaseFileContent implements VideoContent {
       : super.from(ContentType.VIDEO, data, filename, url, password);
 
   @override
-  MutableMapping toMap() {
+  MutableMapping<String, dynamic> toMap() {
     // serialize 'snapshot'
     var img = _snapshot;
     if (img != null && !containsKey('snapshot')) {

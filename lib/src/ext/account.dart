@@ -151,10 +151,10 @@ class AccountGeneralFactory implements GeneralAccountHelper,
   }
 
   @override
-  ID generateID(Meta meta, int? network, {String? terminal}) {
+  ID generateID(Meta meta, int? network) {
     IDFactory? factory = getIDFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory!.generateID(meta, network, terminal: terminal);
+    return factory!.generateID(meta, network);
   }
 
   ///

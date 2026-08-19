@@ -41,9 +41,9 @@ import '../mem/ext.dart';
 class IdentifierFactory implements IDFactory {
 
   @override
-  ID generateID(Meta meta, int? network, {String? terminal}) {
+  ID generateID(Meta meta, int? network) {
     Address address = Address.generate(meta, network);
-    return ID.create(name: meta.seed, address: address, terminal: terminal);
+    return ID.create(name: meta.seed, address: address);
   }
 
   @override

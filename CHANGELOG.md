@@ -1,3 +1,7 @@
+## 2.0.0
+
+- Other contents.
+
 ## 1.0.0
 
 - App extensions.

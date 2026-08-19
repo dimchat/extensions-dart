@@ -5,10 +5,14 @@ library dimax;
 
 // export 'package:dimp/dkd.dart';
 
+export 'src/protocol/contents.dart';
+export 'src/protocol/combine.dart';
 export 'src/protocol/files.dart';
 export 'src/protocol/assets.dart';
 export 'src/protocol/groups.dart';
 
+export 'src/dkd/contents.dart';
+export 'src/dkd/combine.dart';
 export 'src/dkd/files.dart';
 export 'src/dkd/assets.dart';
 export 'src/dkd/groups.dart';
