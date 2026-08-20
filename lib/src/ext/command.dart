@@ -60,7 +60,7 @@ class CommandGeneralFactory implements GeneralCommandHelper, CommandHelper {
     if (body != null) {
       origin['sn'] = body.sn;
     }
-    var content = BaseReceiptCommand.from(text, origin);
+    var content = BaseReceiptCommand.from(text, origin.asMapping());
     if (body != null) {
       // check group
       var group = body.group;

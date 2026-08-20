@@ -1,3 +1,7 @@
+## 2.4.0
+
+- Meta, document commands.
+
 ## 2.3.0
 
 - Receipt Command.

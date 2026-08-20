@@ -10,6 +10,7 @@ export 'src/protocol/combine.dart';
 export 'src/protocol/files.dart';
 export 'src/protocol/assets.dart';
 export 'src/protocol/quote.dart';
+export 'src/protocol/commands.dart';
 export 'src/protocol/receipt.dart';
 export 'src/protocol/groups.dart';
 
@@ -18,6 +19,7 @@ export 'src/dkd/combine.dart';
 export 'src/dkd/files.dart';
 export 'src/dkd/assets.dart';
 export 'src/dkd/quote.dart';
+export 'src/dkd/commands.dart';
 export 'src/dkd/receipt.dart';
 export 'src/dkd/groups.dart';
 

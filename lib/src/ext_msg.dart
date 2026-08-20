@@ -26,6 +26,7 @@
 import 'package:dimp/crypto.dart';
 import 'package:dimp/dkd.dart';
 
+import 'protocol/commands.dart';
 import 'protocol/receipt.dart';
 import 'protocol/groups.dart';
 
@@ -34,6 +35,7 @@ import 'dkd/files.dart';
 import 'dkd/assets.dart';
 import 'dkd/combine.dart';
 import 'dkd/quote.dart';
+import 'dkd/commands.dart';
 import 'dkd/receipt.dart';
 import 'dkd/groups.dart';
 
@@ -112,10 +114,10 @@ mixin MessageFactoryExtensions {
   // protected
   void registerCommandFactories() {
 
-    // // Meta Command
-    // setCommandFactory(Command.META,      creator: (dict) => BaseMetaCommand(dict));
-    // // Document Command
-    // setCommandFactory(Command.DOCUMENTS, creator: (dict) => BaseDocumentCommand(dict));
+    // Meta Command
+    setCommandFactory(MetaCommand.META,      creator: (dict) => BaseMetaCommand(dict));
+    // Document Command
+    setCommandFactory(DocumentCommand.DOCUMENTS, creator: (dict) => BaseDocumentCommand(dict));
     // Receipt Command
     setCommandFactory(ReceiptCommand.RECEIPT,   creator: (dict) => BaseReceiptCommand(dict));
 
