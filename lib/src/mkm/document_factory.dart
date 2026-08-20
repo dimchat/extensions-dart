@@ -32,6 +32,9 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/mkm.dart';
 import 'package:dimp/ext.dart';
 
+import 'docs.dart';
+import 'document.dart';
+
 
 ///
 /// General Document Factory

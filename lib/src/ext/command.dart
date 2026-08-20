@@ -32,6 +32,9 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/dkd.dart';
 import 'package:dimp/ext.dart';
 
+import '../dkd/receipt.dart';
+
+
 ///  Command GeneralFactory
 ///  ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -43,6 +46,29 @@ class CommandGeneralFactory implements GeneralCommandHelper, CommandHelper {
   String? getCmd(Mapping content, [String? defaultValue]) {
     var cmd = content['command'];
     return Converter.getString(cmd, defaultValue);
+  }
+
+  @override
+  Command createReceipt(String text, Envelope head, Content? body) {
+    Map origin = head.copyMap();
+    if (origin.containsKey('data')) {
+      origin.remove('data');
+      origin.remove('keys');
+      origin.remove('meta');
+      origin.remove('visa');
+    }
+    if (body != null) {
+      origin['sn'] = body.sn;
+    }
+    var content = BaseReceiptCommand.from(text, origin);
+    if (body != null) {
+      // check group
+      var group = body.group;
+      if (group != null) {
+        content.group = group;
+      }
+    }
+    return content;
   }
 
   //

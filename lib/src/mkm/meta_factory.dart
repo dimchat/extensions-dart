@@ -36,6 +36,7 @@ import 'package:dimp/ext.dart';
 
 import 'btc.dart';
 import 'eth.dart';
+import 'meta.dart';
 
 
 ///  Default Meta to build ID with 'name@address'

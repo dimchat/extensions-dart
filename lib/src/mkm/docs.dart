@@ -29,7 +29,7 @@
  * ==============================================================================
  */
 import 'package:dimp/crypto.dart';
-import 'package:dimp/mkm.dart' hide BaseDocument;
+import 'package:dimp/mkm.dart';
 
 import 'document.dart';
 

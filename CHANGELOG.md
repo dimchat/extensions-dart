@@ -1,3 +1,7 @@
+## 2.3.0
+
+- Receipt Command.
+
 ## 2.2.0
 
 - Extension Loader.
