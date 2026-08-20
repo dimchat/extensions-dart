@@ -1,5 +1,5 @@
-/// DIMAX
-/// ~~~~~
+/// DIM-AX
+/// ~~~~~~
 /// DIM Application eXtensions
 library dimax;
 

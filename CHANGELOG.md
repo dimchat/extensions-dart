@@ -1,3 +1,7 @@
+## 2.2.0
+
+- Extension Loader.
+
 ## 2.1.0
 
 - Meta and documents.
