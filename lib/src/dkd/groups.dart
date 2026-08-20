@@ -28,8 +28,8 @@
  * SOFTWARE.
  * ==============================================================================
  */
-import 'package:dimp/protocol.dart' hide HistoryCommand, GroupCommand, InviteCommand, ExpelCommand, JoinCommand, QuitCommand, ResetCommand;
-import 'package:dimp/dkd.dart' hide HistoryCommand, GroupCommand, InviteCommand, ExpelCommand, JoinCommand, QuitCommand, ResetCommand;
+import 'package:dimp/protocol.dart';
+import 'package:dimp/dkd.dart';
 
 import '../protocol/groups.dart';
 

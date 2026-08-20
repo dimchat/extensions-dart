@@ -29,8 +29,8 @@
  * ==============================================================================
  */
 import 'package:dimp/crypto.dart';
-import 'package:dimp/protocol.dart' hide MoneyContent, TransferContent;
-import 'package:dimp/dkd.dart' hide MoneyContent, TransferContent;
+import 'package:dimp/protocol.dart';
+import 'package:dimp/dkd.dart';
 
 import '../protocol/assets.dart';
 

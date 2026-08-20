@@ -3,7 +3,7 @@
 /// Decentralized User Identity Authentication
 library dimax;
 
-export 'package:dimp/mkm.dart';
+export 'package:dimp/mkm.dart' hide BaseMeta, BaseDocument, BaseVisa, BaseBulletin;
 
 //
 //  Address
@@ -11,19 +11,22 @@ export 'package:dimp/mkm.dart';
 export 'src/mkm/btc.dart';
 export 'src/mkm/eth.dart';
 
-export 'src/mkm/address.dart';
+export 'src/mkm/address_factory.dart';
 
 //
 //  ID
 //
-export 'src/mkm/identifier.dart';
+export 'src/mkm/id_factory.dart';
 
 //
 //  Meta
 //
 export 'src/mkm/meta.dart';
+export 'src/mkm/meta_factory.dart';
 
 //
 //  Document
 //
 export 'src/mkm/document.dart';
+export 'src/mkm/docs.dart';
+export 'src/mkm/document_factory.dart';

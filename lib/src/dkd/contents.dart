@@ -29,8 +29,8 @@
  * ==============================================================================
  */
 import 'package:dimp/crypto.dart';
-import 'package:dimp/protocol.dart' hide TextContent, PageContent, NameCard;
-import 'package:dimp/dkd.dart' hide TextContent, PageContent, NameCard;
+import 'package:dimp/protocol.dart';
+import 'package:dimp/dkd.dart';
 
 import '../protocol/contents.dart';
 

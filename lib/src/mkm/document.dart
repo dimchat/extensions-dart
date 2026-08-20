@@ -1,6 +1,6 @@
 /* license: https://mit-license.org
  *
- *  Ming-Ke-Ming : Decentralized User Identity Authentication
+ *  DIMP : Decentralized Instant Messaging Protocol
  *
  *                                Written in 2023 by Moky <albert.moky@gmail.com>
  *
@@ -28,104 +28,195 @@
  * SOFTWARE.
  * ==============================================================================
  */
+import 'dart:typed_data';
+
 import 'package:dimp/crypto.dart';
 import 'package:dimp/mkm.dart';
-import 'package:dimp/ext.dart';
 
 
-///
-/// General Document Factory
-///
-class GeneralDocumentFactory implements DocumentFactory {
-  GeneralDocumentFactory(this.type);
+class BaseDocument extends Dictionary implements Document {
+  BaseDocument([super.dict]);
 
-  // protected
-  final String type;
+  String? _json;            // JsON.encode(properties)
+  TransportableData? _sig;  // LocalUser(identifier).sign(data)
 
-  @override
-  Document createDocument({String? data, TransportableData? signature}) {
-    if (data == null || data.isEmpty) {
-      assert(signature == null, 'document error: $data, signature: $signature');
-      // 1. create empty document
-      return createEmptyDocument();
-    } else if (signature == null || signature.isEmpty) {
-      assert(false, 'document error: $data, signature: $signature');
-      return createEmptyDocument();
+  Map? _properties;
+  int _status = 0;          // 1 for valid, -1 for invalid
+
+  ///  1. Create a new empty document
+  ///  2. Create entity document with data and signature loaded from local storage
+  ///
+  /// @param docType   - document type
+  ///
+  /// @param data      - document data in JsON format
+  ///
+  /// @param signature - signature of document data in Base64 format
+  BaseDocument.fromType(String docType, {String? data, TransportableData? signature}) {
+
+    // document type
+    assert(docType.isNotEmpty && docType != '*', 'document type error: $docType');
+    this['type'] = docType;
+
+    // document data(Json) & signature(Base64)
+    if (data == null || signature == null) {
+      assert(data == null && signature == null, 'document data/signature error: $data, $signature');
+      // 1. Create a new empty document
+      _json = null;
+      _sig = null;
+      // initialize properties with created time
+      _properties = {
+        'type': docType,  // deprecated
+        'created_time': DateTime.now().millisecondsSinceEpoch / 1000.0,
+      };
+      _status = 0;
+    } else {
+      assert(data.isNotEmpty && signature.isNotEmpty, 'document data/signature error: $data, $signature');
+      // 2. Create entity document with data and signature loaded from local storage
+      this['data'] = data;
+      this['signature'] = signature.serialize();
+      _json = data;
+      _sig = signature;
+      _properties = null;  // lazy
+      // all documents must be verified before saving into local storage
+      _status = 1;
     }
-    // 2. create document with data & signature from local storage
-    return createValidDocument(data, signature);
-  }
-
-  // protected
-  Document createEmptyDocument() {
-    String docType = type;
-    Document out;
-    switch (docType) {
-
-      case DocumentType.VISA:
-        out = BaseVisa.empty();
-        break;
-
-      case DocumentType.BULLETIN:
-        out = BaseBulletin.empty();
-        break;
-
-      default:
-        out = BaseDocument.fromType(docType);
-        break;
-    }
-    return out;
-  }
-
-  // protected
-  Document createValidDocument(String data, TransportableData signature) {
-    String docType = type;
-    Document out;
-    switch (docType) {
-
-      case DocumentType.VISA:
-        out = BaseVisa.fromData(data: data, signature: signature);
-        break;
-
-      case DocumentType.BULLETIN:
-        out = BaseBulletin.fromData(data: data, signature: signature);
-        break;
-
-      default:
-        out = BaseDocument.fromType(docType, data: data, signature: signature);
-    }
-    assert(out.isValid, 'document error: $out');
-    return out;
   }
 
   @override
-  Document? parseDocument(Mapping doc) {
-    // check 'did', 'data', 'signature'
-    if (!doc.containsKey('data') || !doc.containsKey('signature')) {
-      // doc.data should not be empty
-      // doc.signature should not be empty
-      assert(false, 'document error: $doc');
+  bool get isValid => _status > 0;
+
+  ///  Get serialized properties
+  ///
+  /// @return JsON string
+  String? _getData() {
+    _json ??= getString('data');
+    return _json;
+  }
+
+  ///  Get signature for serialized properties
+  ///
+  /// @return signature data
+  Uint8List? _getSignature() {
+    TransportableData? ted = _sig;
+    if (ted == null) {
+      Object base64 = this['signature'];
+      _sig = ted = TransportableData.parse(base64);
+    }
+    return ted?.bytes;
+  }
+
+  @override
+  Map? get properties {
+    if (_status < 0) {
+      // invalid
       return null;
-    // } else if (!doc.containsKey('did'])) {
-    //   // doc.did should not be empty
-    //   assert(false, 'document error: $doc');
-    //   return null;
     }
-
-    // create document for type
-    var helper = sharedAccountExtensions.helper;
-    String? docType = helper?.getDocumentType(doc, null);
-    switch (docType) {
-
-      case DocumentType.VISA:
-        return BaseVisa(doc);
-
-      case DocumentType.BULLETIN:
-        return BaseBulletin(doc);
-
-      default:
-        return BaseDocument(doc);
+    if (_properties == null) {
+      String? data = _getData();
+      if (data == null) {
+        // create new properties
+        _properties = {};
+      } else {
+        _properties = JSONMap.decode(data);
+        assert(_properties != null, 'document data error: $data');
+      }
     }
+    return _properties;
   }
+
+  @override
+  dynamic getProperty(String name) => properties?[name];
+
+  @override
+  void setProperty(String name, Object? value) {
+    // 1. reset status
+    assert(_status >= 0, 'status error: $this');
+    _status = 0;
+    // 2. update property value with name
+    Map? dict = properties;
+    if (dict == null) {
+      assert(false, 'failed to get properties: $this');
+    } else if (value == null) {
+      dict.remove(name);
+    } else {
+      dict[name] = value;
+    }
+    // 3. clear data signature after properties changed
+    remove('data');
+    remove('signature');
+    _json = null;
+    _sig = null;
+  }
+
+  @override
+  bool verify(VerifyKey publicKey) {
+    // if (_status > 0) {
+    //   // already verify OK
+    //   return true;
+    // }
+    String? data = _getData();
+    Uint8List? signature = _getSignature();
+    if (data == null || data.isEmpty) {
+      // NOTICE: if data is empty, signature should be empty at the same time
+      //         this happen while entity document not found
+      if (signature == null || signature.isEmpty) {
+        _status = 0;
+      } else {
+        // data signature error
+        _status = -1;
+      }
+    } else if (signature == null || signature.isEmpty) {
+      // data signature error
+      _status = -1;
+    } else if (publicKey.verify(UTF8.encode(data), signature)) {
+      // signature matched
+      _status = 1;
+    } else {
+      // public key not matched,
+      // no need to affect the status here
+      return false;
+    }
+    // NOTICE: if status is 0, it doesn't mean the entity document is invalid,
+    //         try another key
+    return _status == 1;
+  }
+
+  @override
+  Uint8List? sign(SignKey privateKey) {
+    Uint8List? signature;
+    // if (_status > 0) {
+    //   // already signed/verified
+    //   assert(_json != null, 'document data error: $this');
+    //   signature = _getSignature();
+    //   assert(signature != null, 'document signature error: $this');
+    //   return signature;
+    // }
+    // 1. update sign time
+    setProperty('time', DateTime.now().millisecondsSinceEpoch / 1000.0);
+    // 2. encode & sign
+    Map? dict = properties;
+    if (dict == null) {
+      assert(false, 'document invalid: ${toMap()}');
+      return null;
+    }
+    String data = JSONMap.encode(dict.asMapping());
+    assert(data.isNotEmpty, 'should not happen: $dict');
+    signature = privateKey.sign(UTF8.encode(data));
+    assert(signature.isNotEmpty, 'should not happen: $dict');
+    TransportableData ted = Base64Data.createWithBytes(signature);
+    // 3. update 'data' & 'signature' fields
+    this['data'] = data;                 // JSON string
+    this['signature'] = ted.serialize();  // BASE-64
+    _json = data;
+    _sig = ted;
+    // 4. update status
+    _status = 1;
+    return signature;
+  }
+
+  //---- properties getter/setter
+
+  @override
+  DateTime? get time => Converter.getDateTime(getProperty('time'));
 
 }

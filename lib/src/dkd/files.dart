@@ -29,8 +29,8 @@
  * ==============================================================================
  */
 import 'package:dimp/crypto.dart';
-import 'package:dimp/protocol.dart' hide FileContent, ImageContent, AudioContent, VideoContent;
-import 'package:dimp/dkd.dart' hide FileContent, ImageContent, AudioContent, VideoContent;
+import 'package:dimp/protocol.dart';
+import 'package:dimp/dkd.dart';
 
 import '../protocol/files.dart';
 
@@ -56,7 +56,7 @@ class BaseFileContent extends BaseContent implements FileContent {
   @override
   MutableMapping<String, dynamic> toMap() {
     // call wrapper to serialize 'data' & 'key"
-    return _wrapper.toMap() as MutableMapping<String, dynamic>;
+    return _wrapper.toMap();
   }
 
   @override

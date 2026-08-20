@@ -32,6 +32,8 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/dkd.dart';
 import 'package:dimp/ext.dart';
 
+import 'groups.dart';
+
 
 ///  General Command Factory
 ///  ~~~~~~~~~~~~~~~~~~~~~~~

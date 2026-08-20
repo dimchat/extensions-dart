@@ -1,6 +1,6 @@
 /* license: https://mit-license.org
  *
- *  Ming-Ke-Ming : Decentralized User Identity Authentication
+ *  DIMP : Decentralized Instant Messaging Protocol
  *
  *                                Written in 2023 by Moky <albert.moky@gmail.com>
  *
@@ -34,222 +34,176 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/mkm.dart';
 import 'package:dimp/ext.dart';
 
-import 'btc.dart';
-import 'eth.dart';
 
-
-///  Default Meta to build ID with 'name@address'
+/// User/Group Meta data
+/// # This class is used to generate entity meta
 ///
-///  version:
-///      1 = MKM
+///      data format: {
+///          "type"        : i2s(1),         // algorithm version
+///          "key"         : "{public key}", // PK = secp256k1(SK);
+///          "seed"        : "moKy",         // user/group name
+///          "fingerprint" : "..."           // CT = sign(seed, SK);
+///      }
 ///
-///  algorithm:
-///      CT      = fingerprint = sKey.sign(seed);
-///      hash    = ripemd160(sha256(CT));
-///      code    = sha256(sha256(network + hash)).prefix(4);
-///      address = base58_encode(network + hash + code);
-class DefaultMeta extends BaseMeta {
-  DefaultMeta([super.dict]);
+///      algorithm:
+///          fingerprint = sign(seed, SK);
+///
+///  abstract method:
+///      - Address generateAddress(int? network);
+abstract class BaseMeta extends Dictionary implements Meta {
+  BaseMeta([super.dict]);
 
-  DefaultMeta.from(String type, VerifyKey key, String seed, TransportableData fingerprint)
-      : super.fromType(type, key, seed: seed, fingerprint: fingerprint);
+  ///  Meta algorithm version
+  ///
+  ///      1 = MKM : username@address (default)
+  ///      2 = BTC : btc_address
+  ///      4 = ETH : eth_address
+  ///      ...
+  String? _type;
 
-  @override
-  bool get hasSeed => true;
+  ///  Public key (used for signature)
+  ///
+  ///      RSA / ECC
+  VerifyKey? _key;
 
-  // caches
-  final Map<int, Address> _cachedAddresses = {};
+  ///  Seed to generate fingerprint
+  ///
+  ///      Username / Group-X
+  String? _seed;
 
-  @override
-  Address generateAddress(int? network) {
-    // assert(type == Meta.MKM || type == '1', 'meta type error: $type');
-    assert(network != null, 'address type should not be empty');
-    // check caches
-    Address? cached = _cachedAddresses[network];
-    if (cached == null) {
-      // generate and cache it
-      var data = fingerprint?.bytes;
-      assert(data != null && data.isNotEmpty, 'meta.fingerprint empty');
-      cached = BTCAddress.generate(data!, network!);
-      _cachedAddresses[network] = cached;
+  ///  Fingerprint to verify ID and public key
+  ///
+  ///      Build: fingerprint = sign(seed, privateKey)
+  ///      Check: verify(seed, fingerprint, publicKey)
+  TransportableData? _fingerprint;
+
+  int _status = 0;  // 1 for valid, -1 for invalid
+
+  BaseMeta.fromType(String type, VerifyKey key, {String? seed, TransportableData? fingerprint}) {
+    //
+    //  meta type
+    //
+    this['type'] = type;
+    _type = type;
+    //
+    //  public key
+    //
+    this['key'] = key.toMap();
+    _key = key;
+    //
+    //  ID name
+    //
+    if (seed != null) {
+      this['seed'] = seed;
     }
-    return cached;
+    _seed = seed;
+    //
+    //  fingerprint
+    //
+    if (fingerprint != null) {
+      this['fingerprint'] = fingerprint.serialize();
+    }
+    _fingerprint = fingerprint;
+
+    // generated meta, or loaded from local storage,
+    // no need to verify again.
+    _status = 1;
   }
 
-}
-
-
-///  Meta to build BTC address for ID
-///
-///  version:
-///      2 = BTC
-///
-///  algorithm:
-///      CT      = key.data;
-///      hash    = ripemd160(sha256(CT));
-///      code    = sha256(sha256(network + hash)).prefix(4);
-///      address = base58_encode(network + hash + code);
-class BTCMeta extends BaseMeta {
-  BTCMeta([super.dict]);
-
-  BTCMeta.from(String type, VerifyKey key, {String? seed, TransportableData? fingerprint})
-      : super.fromType(type, key, seed: seed, fingerprint: fingerprint);
-
   @override
-  bool get hasSeed => false;
-
-  // caches
-  final Map<int, Address> _cachedAddresses = {};
-
-  @override
-  Address generateAddress(int? network) {
-    // assert(type == Meta.BTC || type == '2', 'meta type error: $type');
-    assert(network != null, 'address type should not be empty');
-    // check caches
-    Address? cached = _cachedAddresses[network];
-    if (cached == null) {
-      // TODO: compress public key?
-      VerifyKey key = publicKey;
-      var data = key.data.bytes;
-      assert(data != null && data.isNotEmpty, 'key data empty');
-      // generate and cache it
-      cached = BTCAddress.generate(data!, network!);
-      _cachedAddresses[network] = cached;
+  String get type {
+    String? version = _type;
+    if (version == null) {
+      var helper = sharedAccountExtensions.helper;
+      version = helper!.getMetaType(super.toMap());
+      version ??= '';
+      _type = version;
+      // _type ??= getInt('type', 0);
     }
-    return cached;
+    return version;
   }
-}
-
-
-///  Meta to build ETH address for ID
-///
-///  version:
-///      4 = ETH
-///
-///  algorithm:
-///      CT      = key.data;  // without prefix byte
-///      digest  = keccak256(CT);
-///      address = hex_encode(digest.suffix(20));
-class ETHMeta extends BaseMeta {
-  ETHMeta([super.dict]);
-
-  ETHMeta.from(String type, VerifyKey key, {String? seed, TransportableData? fingerprint})
-      : super.fromType(type, key, seed: seed, fingerprint: fingerprint);
 
   @override
-  bool get hasSeed => false;
-
-  // cache
-  Address? _cachedAddress;
-
-  @override
-  Address generateAddress(int? network) {
-    assert(type == MetaType.ETH || type == '4', 'meta type error: $type');
-    assert(network == null || network == EntityType.USER, 'address type error: $network');
-    // check cache
-    Address? cached = _cachedAddress;
-    if (cached == null/* || cached.type != network*/) {
-      // 64 bytes key data without prefix 0x04
-      VerifyKey key = publicKey;
-      var data = key.data.bytes;
-      assert(data != null && data.isNotEmpty, 'key data empty');
-      // generate and cache it
-      cached = ETHAddress.generate(data!);
-      _cachedAddress = cached;
-    }
-    return cached;
+  VerifyKey get publicKey {
+    _key ??= PublicKey.parse(this['key']);
+    assert(_key != null, 'meta key error: $this');
+    return _key!;
   }
-}
-
-
-///  Base Meta Factory
-///  ~~~~~~~~~~~~~~~~~
-class BaseMetaFactory implements MetaFactory {
-  BaseMetaFactory(this.type);
 
   // protected
-  final String type;
+  bool get hasSeed;
+  // bool get hasSeed {
+  //   String algorithm = type;
+  //   return algorithm == '1' || algorithm == 'MKM';
+  // }
 
   @override
-  Meta generateMeta(SignKey sKey, {String? seed}) {
-    TransportableData? fingerprint;
-    if (seed == null || seed.isEmpty) {
-      fingerprint = null;
-    } else {
-      Uint8List data = UTF8.encode(seed);
-      Uint8List sig = sKey.sign(data);
-      fingerprint = Base64Data.createWithBytes(sig);
+  String? get seed {
+    String? name = _seed;
+    if (name == null && hasSeed) {
+      name = getString('seed');
+      assert(name != null && name.isNotEmpty, 'meta.seed empty: $this');
+      _seed = name;
     }
-    VerifyKey pKey = (sKey as PrivateKey).publicKey;
-    return createMeta(pKey, seed: seed, fingerprint: fingerprint);
+    return name;
   }
 
   @override
-  Meta createMeta(VerifyKey pKey, {String? seed, TransportableData? fingerprint}) {
-    Meta out;
-    switch (type) {
-
-      case MetaType.MKM:
-        out = DefaultMeta.from(type, pKey, seed!, fingerprint!);
-        break;
-
-      case MetaType.BTC:
-        out = BTCMeta.from(type, pKey);
-        break;
-
-      case MetaType.ETH:
-        out = ETHMeta.from(type, pKey);
-        break;
-
-      default:
-        throw Exception('unknown meta type: $type');
+  TransportableData? get fingerprint {
+    TransportableData? ted = _fingerprint;
+    if (ted == null && hasSeed) {
+      Object? base64 = this['fingerprint'];
+      assert(base64 != null, 'meta.fingerprint should not be empty: ${super.toMap()}');
+      _fingerprint = ted = TransportableData.parse(base64);
+      assert(ted != null, 'meta.fingerprint error: $base64');
     }
-    assert(out.isValid, 'meta error: $out');
-    return out;
+    return ted;
   }
 
+  //
+  //  Validation
+  //
+
   @override
-  Meta? parseMeta(Mapping meta) {
-    // check 'type', 'key', 'seed', 'fingerprint'
-    if (!meta.containsKey('type') || !meta.containsKey('key')) {
-      // meta.type should not be empty
-      // meta.key should not be empty
-      assert(false, 'meta error: $meta');
-      return null;
-    } else if (!meta.containsKey('seed')) {
-      if (meta.containsKey('fingerprint')) {
-        assert(false, 'meta error: $meta');
-        return null;
+  bool get isValid {
+    if (_status == 0) {
+      // meta from network, try to verify
+      if (checkValid()) {
+        // correct
+        _status = 1;
+      } else {
+        // error
+        _status = -1;
       }
-    } else if (!meta.containsKey('fingerprint')) {
-      assert(false, 'meta error: $meta');
-      return null;
     }
-    Meta out;
-    var helper = sharedAccountExtensions.helper;
-    String? version = helper?.getMetaType(meta, '');
-    switch (version) {
+    return _status > 0;
+  }
 
-      case MetaType.MKM:
-        out = DefaultMeta(meta);
-        break;
-
-      case MetaType.BTC:
-        out = BTCMeta(meta);
-        break;
-
-      case MetaType.ETH:
-        out = ETHMeta(meta);
-        break;
-
-      default:
-        throw Exception('unknown meta type: $type');
+  // private
+  bool checkValid() {
+    VerifyKey key = publicKey;
+    if (hasSeed) {
+      // check 'seed' & 'fingerprint'
+    } else if (containsKey('seed') || containsKey('fingerprint')) {
+      // this meta has no seed, so
+      // it should not contains 'seed' or 'fingerprint'
+      return false;
+    } else {
+      // this meta has no seed, so it's always valid
+      // when the public key exists
+      return true;
     }
-    if (out.isValid) {
-      return out;
+    String? name = seed;
+    Uint8List? signature = fingerprint?.bytes;
+    // check meta seed & signature
+    if (signature == null || signature.isEmpty ||
+        name == null || name.isEmpty) {
+      assert(false, 'meta error: ${super.toMap()}');
+      return false;
     }
-    assert(false, 'meta error: $meta');
-    return null;
+    // verify fingerprint
+    Uint8List data = UTF8.encode(name);
+    return key.verify(data, signature);
   }
 
 }
