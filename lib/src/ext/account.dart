@@ -49,14 +49,14 @@ class AccountGeneralFactory implements GeneralAccountHelper,
 
   @override
   String? getDocumentType(Mapping doc, [String? defaultValue]) {
-    var docType = doc['type'];
+    final docType = doc['type'];
     if (docType != null) {
       return Converter.getString(docType, defaultValue);
     } else if (defaultValue != null) {
       return defaultValue;
     }
     // get type for did
-    var did = getDocumentID(doc);
+    final did = getDocumentID(doc);
     if (did == null) {
       assert(false, 'document error: $doc');
       return null;
@@ -72,6 +72,18 @@ class AccountGeneralFactory implements GeneralAccountHelper,
   @override
   ID? getDocumentID(Mapping doc) {
     return ID.parse(doc['did']);
+  }
+
+  // protected
+  MutableMapping? getMap(Object dict) {
+    Map? info = Wrapper.getMap(dict);
+    return info?.asMutableMapping();
+  }
+
+  // protected
+  String getString(Object str) {
+    String? text = Wrapper.getString(str);
+    return text ?? '';
   }
 
   ///
@@ -95,14 +107,14 @@ class AccountGeneralFactory implements GeneralAccountHelper,
     } else if (address is Address) {
       return address;
     }
-    var str = Wrapper.getString(address);
-    if (str == null) {
+    final text = getString(address);
+    if (text.isEmpty) {
       assert(false, 'address error: $address');
       return null;
     }
     AddressFactory? factory = getAddressFactory();
     assert(factory != null, 'address factory not ready');
-    return factory?.parseAddress(str);
+    return factory?.parseAddress(text);
   }
 
   @override
@@ -133,14 +145,14 @@ class AccountGeneralFactory implements GeneralAccountHelper,
     } else if (identifier is ID) {
       return identifier;
     }
-    String? str = Wrapper.getString(identifier);
-    if (str == null) {
+    String? text = getString(identifier);
+    if (text.isEmpty) {
       assert(false, 'ID error: $identifier');
       return null;
     }
     IDFactory? factory = getIDFactory();
     assert(factory != null, 'ID factory not ready');
-    return factory?.parseID(str);
+    return factory?.parseID(text);
   }
 
   @override
@@ -192,7 +204,7 @@ class AccountGeneralFactory implements GeneralAccountHelper,
     } else if (meta is Meta) {
       return meta;
     }
-    MutableMapping? info = Wrapper.getMap(meta);
+    MutableMapping? info = getMap(meta);
     if (info == null) {
       assert(false, 'meta error: $meta');
       return null;
@@ -236,7 +248,7 @@ class AccountGeneralFactory implements GeneralAccountHelper,
     } else if (doc is Document) {
       return doc;
     }
-    MutableMapping? info = Wrapper.getMap(doc);
+    MutableMapping? info = getMap(doc);
     if (info == null) {
       assert(false, 'document error: $doc');
       return null;

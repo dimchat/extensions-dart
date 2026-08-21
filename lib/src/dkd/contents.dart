@@ -72,9 +72,9 @@ class WebPageContent extends BaseContent implements PageContent {
   }
 
   @override
-  MutableMapping<String, dynamic> toMap() {
+  MutableMapping toMap() {
     // serialize 'icon'
-    var img = _icon;
+    final img = _icon;
     if (img != null && !containsKey('icon')) {
       this['icon'] = img.serialize();
     }
@@ -100,7 +100,7 @@ class WebPageContent extends BaseContent implements PageContent {
   TransportableFile? get icon {
     TransportableFile? img = _icon;
     if (img == null) {
-      var uri = this['icon'];
+      final uri = this['icon'];
       img = TransportableFile.parse(uri);
       _icon = img;
     }
@@ -130,9 +130,9 @@ class WebPageContent extends BaseContent implements PageContent {
 
   @override
   Uri? get url {
-    var locator = _url;
+    Uri? locator = _url;
     if (locator == null) {
-      var str = getString('URL');
+      final str = getString('URL');
       if (str != null) {
         _url = locator = createURL(str);
       }
@@ -179,9 +179,9 @@ class NameCardContent extends BaseContent implements NameCard {
   }
 
   @override
-  MutableMapping<String, dynamic> toMap() {
+  MutableMapping toMap() {
     // serialize 'avatar'
-    var img = _image;
+    final img = _image;
     if (img != null && !containsKey('avatar')) {
       this['avatar'] = img.serialize();
     }
@@ -199,7 +199,7 @@ class NameCardContent extends BaseContent implements NameCard {
   TransportableFile? get avatar {
     TransportableFile? img = _image;
     if (img == null) {
-      var uri = this['avatar'];
+      final uri = this['avatar'];
       img = TransportableFile.parse(uri);
       _image = img;
     }

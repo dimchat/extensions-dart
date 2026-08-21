@@ -44,7 +44,7 @@ class CommandGeneralFactory implements GeneralCommandHelper, CommandHelper {
 
   @override
   String? getCmd(Mapping content, [String? defaultValue]) {
-    var cmd = content['command'];
+    final cmd = content['command'];
     return Converter.getString(cmd, defaultValue);
   }
 
@@ -60,15 +60,21 @@ class CommandGeneralFactory implements GeneralCommandHelper, CommandHelper {
     if (body != null) {
       origin['sn'] = body.sn;
     }
-    var content = BaseReceiptCommand.from(text, origin.asMapping());
+    final content = BaseReceiptCommand.from(text, origin.asMapping());
     if (body != null) {
       // check group
-      var group = body.group;
+      final group = body.group;
       if (group != null) {
         content.group = group;
       }
     }
     return content;
+  }
+
+  // protected
+  MutableMapping? getMap(Object dict) {
+    Map? info = Wrapper.getMap(dict);
+    return info?.asMutableMapping();
   }
 
   //
@@ -92,7 +98,7 @@ class CommandGeneralFactory implements GeneralCommandHelper, CommandHelper {
     } else if (content is Command) {
       return content;
     }
-    MutableMapping? info = Wrapper.getMap(content);
+    MutableMapping? info = getMap(content);
     if (info == null) {
       assert(false, 'command content error: $content');
       return null;

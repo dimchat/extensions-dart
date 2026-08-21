@@ -64,7 +64,7 @@ class BaseDocument extends Dictionary implements Document {
       _json = null;
       _sig = null;
       // initialize properties with created time
-      _properties = {
+      _properties = <String, dynamic>{
         'type': docType,  // deprecated
         'created_time': DateTime.now().millisecondsSinceEpoch / 1000.0,
       };
@@ -115,7 +115,7 @@ class BaseDocument extends Dictionary implements Document {
       String? data = _getData();
       if (data == null) {
         // create new properties
-        _properties = {};
+        _properties = <String, dynamic>{};
       } else {
         _properties = JSONMap.decode(data);
         assert(_properties != null, 'document data error: $data');

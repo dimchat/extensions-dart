@@ -54,7 +54,7 @@ class BaseFileContent extends BaseContent implements FileContent {
   }
 
   @override
-  MutableMapping<String, dynamic> toMap() {
+  MutableMapping toMap() {
     // call wrapper to serialize 'data' & 'key"
     return _wrapper.toMap();
   }
@@ -114,9 +114,9 @@ class ImageFileContent extends BaseFileContent implements ImageContent {
       : super.from(ContentType.IMAGE, data, filename, url, password);
 
   @override
-  MutableMapping<String, dynamic> toMap() {
+  MutableMapping toMap() {
     // serialize 'thumbnail'
-    var img = _thumbnail;
+    final img = _thumbnail;
     if (img != null && !containsKey('thumbnail')) {
       this['thumbnail'] = img.serialize();
     }
@@ -127,7 +127,7 @@ class ImageFileContent extends BaseFileContent implements ImageContent {
   @override
   TransportableFile toTransportableFile() {
     // serialize 'thumbnail'
-    var img = _thumbnail;
+    final img = _thumbnail;
     if (img != null && !containsKey('thumbnail')) {
       this['thumbnail'] = img.serialize();
     }
@@ -139,7 +139,7 @@ class ImageFileContent extends BaseFileContent implements ImageContent {
   TransportableFile? get thumbnail {
     TransportableFile? img = _thumbnail;
     if (img == null) {
-      var uri = this['thumbnail'];
+      final uri = this['thumbnail'];
       img = TransportableFile.parse(uri);
       _thumbnail = img;
     }
@@ -189,9 +189,9 @@ class VideoFileContent extends BaseFileContent implements VideoContent {
       : super.from(ContentType.VIDEO, data, filename, url, password);
 
   @override
-  MutableMapping<String, dynamic> toMap() {
+  MutableMapping toMap() {
     // serialize 'snapshot'
-    var img = _snapshot;
+    final img = _snapshot;
     if (img != null && !containsKey('snapshot')) {
       this['snapshot'] = img.serialize();
     }
@@ -202,7 +202,7 @@ class VideoFileContent extends BaseFileContent implements VideoContent {
   @override
   TransportableFile toTransportableFile() {
     // serialize 'snapshot'
-    var img = _snapshot;
+    final img = _snapshot;
     if (img != null && !containsKey('snapshot')) {
       this['snapshot'] = img.serialize();
     }
@@ -214,7 +214,7 @@ class VideoFileContent extends BaseFileContent implements VideoContent {
   TransportableFile? get snapshot {
     TransportableFile? img = _snapshot;
     if (img == null) {
-      var uri = this['snapshot'];
+      final uri = this['snapshot'];
       img = TransportableFile.parse(uri);
       _snapshot = img;
     }

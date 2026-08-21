@@ -51,6 +51,12 @@ class MessageGeneralFactory implements GeneralMessageHelper,
     return Converter.getString(content['type'], defaultValue);
   }
 
+  // protected
+  MutableMapping? getMap(Object dict) {
+    Map? info = Wrapper.getMap(dict);
+    return info?.asMutableMapping();
+  }
+
   //
   //  Content
   //
@@ -72,7 +78,7 @@ class MessageGeneralFactory implements GeneralMessageHelper,
     } else if (content is Content) {
       return content;
     }
-    MutableMapping? info = Wrapper.getMap(content);
+    MutableMapping? info = getMap(content);
     if (info == null) {
       assert(false, 'content error: $content');
       return null;
@@ -117,7 +123,7 @@ class MessageGeneralFactory implements GeneralMessageHelper,
     } else if (env is Envelope) {
       return env;
     }
-    MutableMapping? info = Wrapper.getMap(env);
+    MutableMapping? info = getMap(env);
     if (info == null) {
       assert(false, 'envelope error: $env');
       return null;
@@ -155,7 +161,7 @@ class MessageGeneralFactory implements GeneralMessageHelper,
     } else if (msg is InstantMessage) {
       return msg;
     }
-    MutableMapping? info = Wrapper.getMap(msg);
+    MutableMapping? info = getMap(msg);
     if (info == null) {
       assert(false, 'instant message error: $msg');
       return null;
@@ -193,7 +199,7 @@ class MessageGeneralFactory implements GeneralMessageHelper,
     } else if (msg is SecureMessage) {
       return msg;
     }
-    MutableMapping? info = Wrapper.getMap(msg);
+    MutableMapping? info = getMap(msg);
     if (info == null) {
       assert(false, 'secure message error: $msg');
       return null;
@@ -224,7 +230,7 @@ class MessageGeneralFactory implements GeneralMessageHelper,
     } else if (msg is ReliableMessage) {
       return msg;
     }
-    MutableMapping? info = Wrapper.getMap(msg);
+    MutableMapping? info = getMap(msg);
     if (info == null) {
       assert(false, 'reliable message error: $msg');
       return null;

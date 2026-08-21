@@ -50,9 +50,9 @@ class CombineForwardContent extends BaseContent implements CombineContent {
   }
 
   @override
-  MutableMapping<String, dynamic> toMap() {
+  MutableMapping toMap() {
     // serialize 'messages' messages
-    var messages = _history;
+    final messages = _history;
     if (messages != null && !containsKey('messages')) {
       this['messages'] = InstantMessage.revert(messages);
     }
@@ -67,7 +67,7 @@ class CombineForwardContent extends BaseContent implements CombineContent {
   List<InstantMessage> get messages {
     List<InstantMessage>? array = _history;
     if (array == null) {
-      var info = this['messages'];
+      final info = this['messages'];
       if (info is List) {
         array = InstantMessage.convert(info);
       } else {
