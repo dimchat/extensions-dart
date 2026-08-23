@@ -27,6 +27,7 @@ import 'package:dimp/ext.dart';
 
 import 'ext/account.dart';
 import 'ext/command.dart';
+import 'ext/format.dart';
 import 'ext/message.dart';
 
 
@@ -66,6 +67,16 @@ mixin CoreExtensions {
     var cmdHelper = CommandGeneralFactory();
     sharedMessageExtensions.cmdHelper     = cmdHelper;
     sharedMessageExtensions.commandHelper = cmdHelper;
+
+  }
+
+  // protected
+  void registerFormatHelpers() {
+
+    // format
+    var formatHelper = FormatGeneralFactory();
+    sharedFormatExtensions.pnfHelper = formatHelper;
+    sharedFormatExtensions.tedHelper = formatHelper;
 
   }
 

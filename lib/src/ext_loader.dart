@@ -23,6 +23,7 @@
  * SOFTWARE.
  * =============================================================================
  */
+import 'ext_trans.dart';
 import 'ext_core.dart';
 import 'ext_entity.dart';
 import 'ext_msg.dart';
@@ -30,7 +31,7 @@ import 'ext_msg.dart';
 
 /// Core Extensions Loader
 /// ~~~~~~~~~~~~~~~~~~~~~~
-class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExtensions {
+class ExtensionLoader with TransportableExtensions, CoreExtensions, EntityExtensions, MessageFactoryExtensions {
 
   /// Register core factories
   void load() {
@@ -40,6 +41,8 @@ class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExten
     loadEntityFactories();
 
     loadMessageFactories();
+
+    loadFormatFactories();
 
   }
 
@@ -51,6 +54,8 @@ class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExten
 
     registerMessageHelpers();
     registerCommandHelpers();
+
+    registerFormatHelpers();
 
   }
 
@@ -75,6 +80,15 @@ class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExten
 
     registerContentFactories();
     registerCommandFactories();
+
+  }
+
+  /// Format extensions
+  // protected
+  void loadFormatFactories() {
+
+    registerPNFFactory();
+    registerTEDFactory();
 
   }
 

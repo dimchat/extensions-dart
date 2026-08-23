@@ -1,3 +1,7 @@
+## 2.4.2
+
+- Format extensions for TED, PNF.
+
 ## 2.4.1
 
 - Inner map.
