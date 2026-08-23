@@ -5,6 +5,8 @@ library dimax;
 
 export 'package:dimp/ext.dart';
 
+export 'src/format/helper.dart';
+
 //
 //  Memory Cache
 //

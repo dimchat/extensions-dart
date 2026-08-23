@@ -33,6 +33,8 @@ import 'package:dimp/protocol.dart';
 import 'package:dimp/dkd.dart';
 
 import '../protocol/files.dart';
+import '../format/file_wrapper.dart';
+import '../format/pnf.dart';
 
 
 ///
