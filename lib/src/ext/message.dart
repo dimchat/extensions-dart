@@ -51,6 +51,20 @@ class MessageGeneralFactory implements GeneralMessageHelper,
     return Converter.getString(content['type'], defaultValue);
   }
 
+  @override
+  bool isBroadcast(Message msg) {
+    if (msg.receiver.isBroadcast) {
+      return true;
+    }
+    // check exposed group
+    Object? overtGroup = msg['group'];
+    if (overtGroup == null) {
+      return false;
+    }
+    ID? group = ID.parse(overtGroup);
+    return group != null && group.isBroadcast;
+  }
+
   // protected
   MutableMapping? getMap(Object dict) {
     Map? info = Wrapper.getMap(dict);

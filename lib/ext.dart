@@ -19,10 +19,12 @@ export 'src/mem/ext.dart';
 export 'src/ext/account.dart';
 export 'src/ext/command.dart';
 export 'src/ext/message.dart';
+export 'src/ext/format.dart';
 
 //
 //  Loader
 //
+export 'src/ext_trans.dart';
 export 'src/ext_core.dart';
 export 'src/ext_entity.dart';
 export 'src/ext_msg.dart';

@@ -3,7 +3,7 @@
 /// Universal Message Module
 library dimax;
 
-// export 'package:dimp/dkd.dart';
+export 'package:dimp/dkd.dart';
 
 export 'src/protocol/contents.dart';
 export 'src/protocol/combine.dart';
