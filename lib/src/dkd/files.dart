@@ -34,7 +34,6 @@ import 'package:dimp/dkd.dart';
 
 import '../protocol/files.dart';
 import '../format/file_wrapper.dart';
-import '../format/pnf.dart';
 
 
 ///
@@ -42,15 +41,16 @@ import '../format/pnf.dart';
 ///
 class BaseFileContent extends BaseContent implements FileContent {
   BaseFileContent([super.dict]) {
-    _wrapper = TransportableFileWrapper.create(super.toMap());
+    wrapper = TransportableFileWrapper.create(super.toMap());
   }
 
-  late final TransportableFileWrapper _wrapper;
+  // private
+  late final TransportableFileWrapper wrapper;
 
   BaseFileContent.from(String? msgType, TransportableData? data, String? filename,
       Uri? url, DecryptKey? password)
       : super.fromType(msgType ?? ContentType.FILE) {
-    _wrapper = TransportableFileWrapper.create(super.toMap(),
+    wrapper = TransportableFileWrapper.create(super.toMap(),
       data: data, filename: filename, url: url, password: password,
     );
   }
@@ -58,46 +58,46 @@ class BaseFileContent extends BaseContent implements FileContent {
   @override
   MutableMapping toMap() {
     // call wrapper to serialize 'data' & 'key"
-    return _wrapper.toMap();
+    return wrapper.toMap();
   }
 
-  @override
-  TransportableFile toTransportableFile() {
-    // clone without serializations
-    return PortableNetworkFile(super.toMap(), wrapper: _wrapper);
-  }
+  // @override
+  // TransportableFile toTransportableFile() {
+  //   // clone without serializations
+  //   return PortableNetworkFile(super.toMap(), wrapper: _wrapper);
+  // }
 
   /// file data
 
   @override
-  TransportableData? get data => _wrapper.data;
+  TransportableData? get data => wrapper.data;
 
   @override
-  set data(TransportableData? ted) => _wrapper.data = ted;
+  set data(TransportableData? ted) => wrapper.data = ted;
 
   /// file name
 
   @override
-  String? get filename => _wrapper.filename;
+  String? get filename => wrapper.filename;
 
   @override
-  set filename(String? name) => _wrapper.filename = name;
+  set filename(String? name) => wrapper.filename = name;
 
   /// download URL
 
   @override
-  Uri? get url => _wrapper.url;
+  Uri? get url => wrapper.url;
 
   @override
-  set url(Uri? remote) => _wrapper.url = remote;
+  set url(Uri? remote) => wrapper.url = remote;
 
   /// decrypt key
 
   @override
-  DecryptKey? get password => _wrapper.password;
+  DecryptKey? get password => wrapper.password;
 
   @override
-  set password(DecryptKey? key) => _wrapper.password = key;
+  set password(DecryptKey? key) => wrapper.password = key;
 
 }
 
@@ -126,16 +126,16 @@ class ImageFileContent extends BaseFileContent implements ImageContent {
     return super.toMap();
   }
 
-  @override
-  TransportableFile toTransportableFile() {
-    // serialize 'thumbnail'
-    final img = _thumbnail;
-    if (img != null && !containsKey('thumbnail')) {
-      this['thumbnail'] = img.serialize();
-    }
-    // clone without other serializations
-    return super.toTransportableFile();
-  }
+  // @override
+  // TransportableFile toTransportableFile() {
+  //   // serialize 'thumbnail'
+  //   final img = _thumbnail;
+  //   if (img != null && !containsKey('thumbnail')) {
+  //     this['thumbnail'] = img.serialize();
+  //   }
+  //   // clone without other serializations
+  //   return super.toTransportableFile();
+  // }
 
   @override
   TransportableFile? get thumbnail {
@@ -201,16 +201,16 @@ class VideoFileContent extends BaseFileContent implements VideoContent {
     return super.toMap();
   }
 
-  @override
-  TransportableFile toTransportableFile() {
-    // serialize 'snapshot'
-    final img = _snapshot;
-    if (img != null && !containsKey('snapshot')) {
-      this['snapshot'] = img.serialize();
-    }
-    // clone without other serializations
-    return super.toTransportableFile();
-  }
+  // @override
+  // TransportableFile toTransportableFile() {
+  //   // serialize 'snapshot'
+  //   final img = _snapshot;
+  //   if (img != null && !containsKey('snapshot')) {
+  //     this['snapshot'] = img.serialize();
+  //   }
+  //   // clone without other serializations
+  //   return super.toTransportableFile();
+  // }
 
   @override
   TransportableFile? get snapshot {

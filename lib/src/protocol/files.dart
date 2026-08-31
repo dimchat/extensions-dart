@@ -81,11 +81,11 @@ abstract interface class FileContent implements Content {
   DecryptKey? get password;
   set password(DecryptKey? key);
 
+  // //
+  // //  PNF transforming
+  // //
   //
-  //  PNF transforming
-  //
-
-  TransportableFile toTransportableFile();
+  // TransportableFile toTransportableFile();
 
   //
   //  Factories
