@@ -28,14 +28,19 @@
  * SOFTWARE.
  * ==============================================================================
  */
+import 'dart:typed_data';
+
 import 'package:dimp/crypto.dart';
 import 'package:dimp/dkd.dart';
 import 'package:dimp/mkm.dart';
 import 'package:dimp/ext.dart';
 
+import 'package:dkd/dkd.dart';  // FIXME: upgrade 'dkd'
+
+
 /// Message GeneralFactory
 /// ~~~~~~~~~~~~~~~~~~~~~~
-class MessageGeneralFactory implements GeneralMessageHelper,
+class MessageGeneralFactory implements MessageHandler,
                                        ContentHelper, EnvelopeHelper,
                                        InstantMessageHelper, SecureMessageHelper, ReliableMessageHelper {
 
@@ -207,6 +212,14 @@ class MessageGeneralFactory implements GeneralMessageHelper,
   }
 
   @override
+  SecureMessage createSecureMessage(InstantMessage iMsg, Uint8List ciphertext,
+      Map<ID, EncryptedBundle>? keyBundles) {
+    SecureMessageFactory? factory = getSecureMessageFactory();
+    assert(factory != null, 'secure message factory not ready');
+    return factory!.createSecureMessage(iMsg, ciphertext, keyBundles);
+  }
+
+  @override
   SecureMessage? parseSecureMessage(Object? msg) {
     if (msg == null) {
       return null;
@@ -235,6 +248,13 @@ class MessageGeneralFactory implements GeneralMessageHelper,
   @override
   ReliableMessageFactory? getReliableMessageFactory() {
     return _reliableMessageFactory;
+  }
+
+  @override
+  ReliableMessage createReliableMessage(SecureMessage sMsg, Uint8List signature) {
+    ReliableMessageFactory? factory = getReliableMessageFactory();
+    assert(factory != null, 'reliable message factory not ready');
+    return factory!.createReliableMessage(sMsg, signature);
   }
 
   @override

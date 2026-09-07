@@ -23,12 +23,14 @@
  * SOFTWARE.
  * =============================================================================
  */
+import 'package:dimp/crypto.dart';
 import 'package:dimp/ext.dart';
 
 import 'ext/account.dart';
 import 'ext/command.dart';
 import 'ext/format.dart';
 import 'ext/message.dart';
+import 'format/helper.dart';
 
 
 mixin CoreExtensions {
@@ -42,7 +44,7 @@ mixin CoreExtensions {
     sharedAccountExtensions.idHelper      = accountHelper;
     sharedAccountExtensions.metaHelper    = accountHelper;
     sharedAccountExtensions.docHelper     = accountHelper;
-    sharedAccountExtensions.helper        = accountHelper;
+    sharedAccountExtensions.handler       = accountHelper;
 
   }
 
@@ -56,7 +58,7 @@ mixin CoreExtensions {
     sharedMessageExtensions.instantHelper  = msgHelper;
     sharedMessageExtensions.secureHelper   = msgHelper;
     sharedMessageExtensions.reliableHelper = msgHelper;
-    sharedMessageExtensions.helper         = msgHelper;
+    sharedMessageExtensions.handler        = msgHelper;
 
   }
 
@@ -65,8 +67,8 @@ mixin CoreExtensions {
 
     // cmd
     var cmdHelper = CommandGeneralFactory();
-    sharedMessageExtensions.cmdHelper     = cmdHelper;
-    sharedMessageExtensions.commandHelper = cmdHelper;
+    sharedMessageExtensions.commandHandler = cmdHelper;
+    sharedMessageExtensions.commandHelper  = cmdHelper;
 
   }
 
@@ -77,6 +79,7 @@ mixin CoreExtensions {
     var formatHelper = FormatGeneralFactory();
     sharedFormatExtensions.pnfHelper = formatHelper;
     sharedFormatExtensions.tedHelper = formatHelper;
+    sharedFormatExtensions.pnfWrapperFactory = PNFWrapperFactory();
 
   }
 

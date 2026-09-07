@@ -32,6 +32,7 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/dkd.dart';
 
 import '../protocol/combine.dart';
+import '../dkd/base.dart';
 
 
 /// CombineContent

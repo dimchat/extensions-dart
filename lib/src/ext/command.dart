@@ -38,7 +38,7 @@ import '../dkd/receipt.dart';
 ///  Command GeneralFactory
 ///  ~~~~~~~~~~~~~~~~~~~~~~
 
-class CommandGeneralFactory implements GeneralCommandHelper, CommandHelper {
+class CommandGeneralFactory implements CommandHandler, CommandHelper {
 
   final Map<String, CommandFactory> _commandFactories = {};
 
@@ -116,7 +116,7 @@ class CommandGeneralFactory implements GeneralCommandHelper, CommandHelper {
   }
 
   static CommandFactory? _defaultFactory(Mapping info) {
-    GeneralMessageHelper? helper = sharedMessageExtensions.helper;
+    MessageHandler? helper = sharedMessageExtensions.handler;
     ContentHelper? contentHelper = sharedMessageExtensions.contentHelper;
     // get factory by content type
     String? type = helper?.getContentType(info);

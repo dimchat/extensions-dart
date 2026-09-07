@@ -28,12 +28,9 @@
  * SOFTWARE.
  * ==============================================================================
  */
-import 'package:dkd/protocol.dart';
-import 'package:dkd/ext.dart';
+import 'package:dimp/crypto.dart';
 import 'package:dimp/ext.dart';
 import 'package:dimp/protocol.dart';
-import 'package:mkm/protocol.dart';
-import 'package:mkm/type.dart';
 
 
 class BaseContent extends Dictionary implements Content {
@@ -103,7 +100,7 @@ class BaseCommand extends BaseContent implements Command  {
 
   @override
   String get cmd {
-    final helper = sharedMessageExtensions.cmdHelper;
+    final helper = sharedMessageExtensions.commandHandler;
     return helper!.getCmd(super.toMap()) ?? '';
     // return getString('command') ?? '';
   }

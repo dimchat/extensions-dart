@@ -33,6 +33,7 @@ import 'package:dimp/dkd.dart';
 import 'package:dimp/ext.dart';
 
 import 'groups.dart';
+import 'base.dart';
 
 
 ///  General Command Factory
@@ -42,7 +43,7 @@ class GeneralCommandFactory implements ContentFactory, CommandFactory {
 
   @override
   Content? parseContent(Mapping content) {
-    GeneralCommandHelper? helper = sharedMessageExtensions.cmdHelper;
+    CommandHandler? helper = sharedMessageExtensions.commandHandler;
     CommandHelper? cmdHelper = sharedMessageExtensions.commandHelper;
     // get factory by command name
     String? cmd = helper?.getCmd(content);
@@ -94,7 +95,7 @@ class GroupCommandFactory extends HistoryCommandFactory {
 
   @override
   Content? parseContent(Mapping content) {
-    GeneralCommandHelper? helper = sharedMessageExtensions.cmdHelper;
+    CommandHandler? helper = sharedMessageExtensions.commandHandler;
     CommandHelper? cmdHelper = sharedMessageExtensions.commandHelper;
     // get factory by command name
     String? cmd = helper?.getCmd(content);

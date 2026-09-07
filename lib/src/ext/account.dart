@@ -32,8 +32,11 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/mkm.dart';
 import 'package:dimp/ext.dart';
 
+import '../protocol/version.dart';
+
+
 /// Account GeneralFactory
-class AccountGeneralFactory implements GeneralAccountHelper,
+class AccountGeneralFactory implements AccountHandler,
                                        AddressHelper, IDHelper,
                                        MetaHelper, DocumentHelper {
 
@@ -117,13 +120,6 @@ class AccountGeneralFactory implements GeneralAccountHelper,
     return factory?.parseAddress(text);
   }
 
-  @override
-  Address generateAddress(Meta meta, int? network) {
-    AddressFactory? factory = getAddressFactory();
-    assert(factory != null, 'address factory not ready');
-    return factory!.generateAddress(meta, network);
-  }
-
   ///
   ///   ID
   ///
@@ -160,13 +156,6 @@ class AccountGeneralFactory implements GeneralAccountHelper,
     IDFactory? factory = getIDFactory();
     assert(factory != null, 'ID factory not ready');
     return factory!.createID(name: name, address: address, terminal: terminal);
-  }
-
-  @override
-  ID generateID(Meta meta, int? network) {
-    IDFactory? factory = getIDFactory();
-    assert(factory != null, 'ID factory not ready');
-    return factory!.generateID(meta, network);
   }
 
   ///

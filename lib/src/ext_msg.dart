@@ -30,11 +30,14 @@ import 'protocol/commands.dart';
 import 'protocol/receipt.dart';
 import 'protocol/groups.dart';
 
+import 'dkd/base.dart';
 import 'dkd/contents.dart';
 import 'dkd/files.dart';
 import 'dkd/assets.dart';
 import 'dkd/combine.dart';
 import 'dkd/quote.dart';
+import 'dkd/array.dart';
+import 'dkd/forward.dart';
 import 'dkd/commands.dart';
 import 'dkd/receipt.dart';
 import 'dkd/groups.dart';

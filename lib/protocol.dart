@@ -5,6 +5,7 @@ library dimax;
 
 export 'package:dimp/protocol.dart';
 
+export 'src/protocol/version.dart';
 export 'src/protocol/contents.dart';
 export 'src/protocol/combine.dart';
 export 'src/protocol/files.dart';

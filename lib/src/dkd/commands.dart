@@ -29,9 +29,9 @@
  * ==============================================================================
  */
 import 'package:dimp/mkm.dart';
-import 'package:dimp/dkd.dart';
 
 import '../protocol/commands.dart';
+import '../dkd/base.dart';
 
 
 ///

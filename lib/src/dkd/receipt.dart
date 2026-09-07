@@ -32,6 +32,7 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/dkd.dart';
 
 import '../protocol/receipt.dart';
+import '../dkd/base.dart';
 
 
 class BaseReceiptCommand extends BaseCommand implements ReceiptCommand {

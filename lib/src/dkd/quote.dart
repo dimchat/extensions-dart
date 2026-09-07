@@ -32,6 +32,7 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/dkd.dart';
 
 import '../protocol/quote.dart';
+import '../dkd/base.dart';
 
 
 /// QuoteContent

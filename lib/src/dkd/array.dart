@@ -28,8 +28,7 @@
  * SOFTWARE.
  * ==============================================================================
  */
-import 'package:mkm/type.dart';
-import 'package:dkd/protocol.dart';
+import 'package:dimp/crypto.dart';
 import 'package:dimp/protocol.dart';
 
 import '../protocol/array.dart';

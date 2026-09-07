@@ -115,7 +115,7 @@ abstract interface class ReceiptCommand implements Command {
   ///
   /// @return A new [ReceiptCommand] instance
   static ReceiptCommand create(String text, Envelope head, Content? body) {
-    var helper = sharedMessageExtensions.cmdHelper;
+    var helper = sharedMessageExtensions.commandHandler;
     var content = helper?.createReceipt(text, head, body);
     if (content is ReceiptCommand) {
       return content;

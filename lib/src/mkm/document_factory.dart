@@ -32,6 +32,8 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/mkm.dart';
 import 'package:dimp/ext.dart';
 
+import '../protocol/version.dart';
+
 import 'docs.dart';
 import 'document.dart';
 
@@ -116,7 +118,7 @@ class GeneralDocumentFactory implements DocumentFactory {
     }
 
     // create document for type
-    var helper = sharedAccountExtensions.helper;
+    var helper = sharedAccountExtensions.handler;
     String? docType = helper?.getDocumentType(doc, null);
     switch (docType) {
 

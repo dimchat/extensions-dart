@@ -23,6 +23,8 @@
  * SOFTWARE.
  * =============================================================================
  */
+import 'dart:typed_data';
+
 import 'package:dimp/crypto.dart';
 import 'package:dimp/ext.dart';
 
@@ -55,6 +57,18 @@ class FormatGeneralFactory implements TransportableFileHelper,
   @override
   TransportableDataFactory? getTransportableDataFactory() {
     return _tedFactory;
+  }
+
+  @override
+  TransportableData createTransportableData(Uint8List data, {
+    String? encoding,
+    String? mimeType,
+    MutableMapping? parameters,
+  }) {
+    TransportableDataFactory? factory = getTransportableDataFactory();
+    assert(factory != null, 'TED factory not ready');
+    return factory!.createTransportableData(data,
+        encoding: encoding, mimeType: mimeType, parameters: parameters);
   }
 
   @override

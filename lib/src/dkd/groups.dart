@@ -29,9 +29,9 @@
  * ==============================================================================
  */
 import 'package:dimp/protocol.dart';
-import 'package:dimp/dkd.dart';
 
 import '../protocol/groups.dart';
+import '../dkd/base.dart';
 
 
 ///

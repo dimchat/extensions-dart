@@ -1,5 +1,5 @@
-import 'package:dimp/mkm.dart';
 import 'package:dimax/ext.dart';
+import 'package:dimax/protocol.dart';
 
 import 'address.dart';
 import 'meta.dart';

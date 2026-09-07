@@ -25,6 +25,7 @@
  */
 import 'package:dimp/mkm.dart';
 
+import 'protocol/version.dart';
 import 'mkm/address_factory.dart';
 import 'mkm/document_factory.dart';
 import 'mkm/id_factory.dart';

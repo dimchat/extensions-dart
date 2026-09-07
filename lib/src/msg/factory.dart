@@ -29,10 +29,13 @@
  * ==============================================================================
  */
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:dimp/crypto.dart';
 import 'package:dimp/protocol.dart';
-import 'package:dimp/dkd.dart';
+import 'package:dimp/msg.dart';
+
+import 'package:dkd/dkd.dart';  // FIXME: upgrade 'dkd'
 
 
 ///  Message Factory
@@ -113,6 +116,41 @@ class MessageFactory implements EnvelopeFactory, InstantMessageFactory, SecureMe
   ///
 
   @override
+  SecureMessage createSecureMessage(InstantMessage iMsg, Uint8List ciphertext,
+      Map<ID, EncryptedBundle>? keyBundles) {
+    var helper = sharedMessageExtensions.handler;
+    TransportableData encodedData;
+    if (helper!.isBroadcast(iMsg)) {
+      encodedData = PlainData.createWithBytes(ciphertext);  // UTF8.decode(ciphertext)
+    } else {
+      encodedData = TransportableData.create(ciphertext);
+    }
+    assert(encodedData.isNotEmpty, 'failed to encode content data: ${ciphertext.length} byte(s)');
+    Map<String, Object>? msgKeys;
+    if (keyBundles == null) {
+      msgKeys = null;
+    } else {
+      msgKeys = <String, Object>{};
+      assert(!helper.isBroadcast(iMsg), 'broadcast message should not contains keys: $iMsg');
+      keyBundles.forEach((ID receiver, EncryptedBundle bundle) {
+        Map<String, Object>? encodedKeys = bundle.encode(receiver);
+        if (encodedKeys.isEmpty) {
+          assert(false, 'failed to encode key data: $receiver');
+          return;
+        }
+        msgKeys!.addAll(encodedKeys);
+      });
+    }
+    Map info = iMsg.toMap();
+    info.remove('content');
+    info['data'] = encodedData.serialize();
+    if (msgKeys != null && msgKeys.isNotEmpty) {
+      info['keys'] = msgKeys;
+    }
+    return EncryptedMessage(info);
+  }
+
+  @override
   SecureMessage? parseSecureMessage(Mapping msg) {
     // check 'sender', 'data'
     if (!msg.containsKey('sender') || !msg.containsKey('data')) {
@@ -131,6 +169,22 @@ class MessageFactory implements EnvelopeFactory, InstantMessageFactory, SecureMe
   ///
   /// ReliableMessageFactory
   ///
+
+  @override
+  ReliableMessage createReliableMessage(SecureMessage sMsg, Uint8List signature) {
+    //
+    //  1. encode signature
+    //
+    TransportableData base64 = TransportableData.create(signature);
+    assert(base64.isNotEmpty, 'failed to encode signature: ${signature.length} byte(s) '
+        '${sMsg.sender} => ${sMsg.receiver}, ${sMsg.group}');
+    //
+    //  2. create message
+    //
+    Map info = sMsg.toMap();
+    info['signature'] = base64.serialize();
+    return NetworkMessage(info);
+  }
 
   @override
   ReliableMessage? parseReliableMessage(Mapping msg) {

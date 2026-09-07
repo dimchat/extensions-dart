@@ -34,6 +34,8 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/mkm.dart';
 import 'package:dimp/ext.dart';
 
+import '../protocol/version.dart';
+
 import 'btc.dart';
 import 'eth.dart';
 import 'meta.dart';
@@ -179,7 +181,7 @@ class BaseMetaFactory implements MetaFactory {
     } else {
       Uint8List data = UTF8.encode(seed);
       Uint8List sig = sKey.sign(data);
-      fingerprint = Base64Data.createWithBytes(sig);
+      fingerprint = TransportableData.create(sig);
     }
     VerifyKey pKey = (sKey as PrivateKey).publicKey;
     return createMeta(pKey, seed: seed, fingerprint: fingerprint);
@@ -227,7 +229,7 @@ class BaseMetaFactory implements MetaFactory {
       return null;
     }
     Meta out;
-    var helper = sharedAccountExtensions.helper;
+    var helper = sharedAccountExtensions.handler;
     String? version = helper?.getMetaType(meta, '');
     switch (version) {
 

@@ -41,12 +41,6 @@ import '../mem/ext.dart';
 class IdentifierFactory implements IDFactory {
 
   @override
-  ID generateID(Meta meta, int? network) {
-    Address address = Address.generate(meta, network);
-    return ID.create(name: meta.seed, address: address);
-  }
-
-  @override
   ID createID({String? name, required Address address, String? terminal}) {
     String identifier = Identifier.concat(name: name, address: address, terminal: terminal);
     var cache = sharedAccountExtensions.idCache;

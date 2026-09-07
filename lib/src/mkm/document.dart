@@ -203,7 +203,7 @@ class BaseDocument extends Dictionary implements Document {
     assert(data.isNotEmpty, 'should not happen: $dict');
     signature = privateKey.sign(UTF8.encode(data));
     assert(signature.isNotEmpty, 'should not happen: $dict');
-    TransportableData ted = Base64Data.createWithBytes(signature);
+    TransportableData ted = TransportableData.create(signature);
     // 3. update 'data' & 'signature' fields
     this['data'] = data;                 // JSON string
     this['signature'] = ted.serialize();  // BASE-64

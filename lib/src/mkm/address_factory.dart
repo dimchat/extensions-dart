@@ -42,14 +42,6 @@ import 'eth.dart';
 class BaseAddressFactory implements AddressFactory {
 
   @override
-  Address generateAddress(Meta meta, int? network) {
-    Address address = meta.generateAddress(network);
-    var cache = sharedAccountExtensions.addressCache;
-    cache.put(address.toString(), address);
-    return address;
-  }
-
-  @override
   Address? parseAddress(String address) {
     var cache = sharedAccountExtensions.addressCache;
     Address? res = cache.get(address);

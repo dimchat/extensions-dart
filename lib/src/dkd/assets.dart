@@ -30,9 +30,9 @@
  */
 import 'package:dimp/crypto.dart';
 import 'package:dimp/protocol.dart';
-import 'package:dimp/dkd.dart';
 
 import '../protocol/assets.dart';
+import '../dkd/base.dart';
 
 
 /// MoneyContent
