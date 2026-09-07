@@ -148,6 +148,10 @@ abstract interface class ExpelCommand implements GroupCommand {
 /// Used to record the history of users voluntarily joining a group.
 /// The [members] field contains the ID of the user joining the group.
 abstract interface class JoinCommand implements GroupCommand {
+
+  /// The question/application text of the user requesting to join.
+  String get ask;
+
 }
 
 
@@ -156,6 +160,10 @@ abstract interface class JoinCommand implements GroupCommand {
 /// Used to record the history of members voluntarily leaving a group.
 /// The [members] field contains the ID of the member quitting the group.
 abstract interface class QuitCommand implements GroupCommand {
+
+  /// The farewell/leaving text of the member quitting the group.
+  String get bye;
+
 }
 
 /// Group reset command interface.

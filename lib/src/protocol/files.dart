@@ -183,6 +183,12 @@ abstract interface class ImageContent implements FileContent {
 /// ```
 abstract interface class AudioContent implements FileContent {
 
+  /// Duration of the audio in seconds.
+  ///
+  /// Returns the playing duration (null if unknown).
+  double get duration;
+  set duration(double value);
+
   /// Automatic Speech Recognition (ASR) text of the audio.
   ///
   /// Transcribed text from the audio content (null if not transcribed).

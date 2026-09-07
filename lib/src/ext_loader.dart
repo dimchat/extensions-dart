@@ -35,17 +35,17 @@ class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExten
   /// Register core factories
   void load() {
 
-    loadCoreHelpers();
+    loadCoreExtensions();
 
-    loadEntityFactories();
+    loadEntityExtensions();
 
-    loadMessageFactories();
+    loadMessageExtensions();
 
   }
 
   ///  Core extensions
   // protected
-  void loadCoreHelpers() {
+  void loadCoreExtensions() {
 
     registerAccountHelpers();
 
@@ -56,7 +56,7 @@ class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExten
 
   ///  ID, Address, Meta, Document parsers
   // protected
-  void loadEntityFactories() {
+  void loadEntityExtensions() {
 
     registerIDFactory();
     registerAddressFactory();
@@ -69,7 +69,7 @@ class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExten
 
   /// Message Factories
   // protected
-  void loadMessageFactories() {
+  void loadMessageExtensions() {
 
     registerMessageFactories();
 

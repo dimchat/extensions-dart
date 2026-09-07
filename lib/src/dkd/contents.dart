@@ -153,10 +153,10 @@ class WebPageContent extends BaseContent implements PageContent {
   //
 
   @override
-  String? get html => getString('html');
+  String? get html => getString('HTML');
 
   @override
-  set html(String? content) => this['html'] = content;
+  set html(String? content) => this['HTML'] = content;
 
 }
 

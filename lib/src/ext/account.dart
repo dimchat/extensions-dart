@@ -35,10 +35,11 @@ import 'package:dimp/ext.dart';
 import '../protocol/version.dart';
 
 
-/// Account GeneralFactory
-class AccountGeneralFactory implements AccountHandler,
-                                       AddressHelper, IDHelper,
-                                       MetaHelper, DocumentHelper {
+///  Account General Helper
+///  ~~~~~~~~~~~~~~~~~~~~~~
+class GeneralAccountHelper implements AccountHandler,
+                                      AddressHelper, IDHelper,
+                                      MetaHelper, DocumentHelper {
 
   AddressFactory?                    _addressFactory;
   IDFactory?                         _idFactory;
@@ -52,9 +53,9 @@ class AccountGeneralFactory implements AccountHandler,
 
   @override
   String? getDocumentType(Mapping doc, [String? defaultValue]) {
-    final docType = doc['type'];
-    if (docType != null) {
-      return Converter.getString(docType, defaultValue);
+    final docType = Converter.getString(doc['type']);
+    if (docType != null && docType.isNotEmpty/* && docType != '*'*/) {
+      return docType;
     } else if (defaultValue != null) {
       return defaultValue;
     }

@@ -60,23 +60,14 @@ class DefaultMeta extends BaseMeta {
   @override
   bool get hasSeed => true;
 
-  // caches
-  final Map<int, Address> _cachedAddresses = {};
-
   @override
   Address generateAddress(int? network) {
     // assert(type == Meta.MKM || type == '1', 'meta type error: $type');
     assert(network != null, 'address type should not be empty');
-    // check caches
-    Address? cached = _cachedAddresses[network];
-    if (cached == null) {
-      // generate and cache it
-      var data = fingerprint?.bytes;
-      assert(data != null && data.isNotEmpty, 'meta.fingerprint empty');
-      cached = BTCAddress.generate(data!, network!);
-      _cachedAddresses[network] = cached;
-    }
-    return cached;
+    var data = fingerprint?.bytes;
+    assert(data != null && data.isNotEmpty, 'meta.fingerprint empty');
+    // generate BTC address with fingerprint
+    return BTCAddress.generate(data!, network!);
   }
 
 }
@@ -101,25 +92,16 @@ class BTCMeta extends BaseMeta {
   @override
   bool get hasSeed => false;
 
-  // caches
-  final Map<int, Address> _cachedAddresses = {};
-
   @override
   Address generateAddress(int? network) {
     // assert(type == Meta.BTC || type == '2', 'meta type error: $type');
     assert(network != null, 'address type should not be empty');
-    // check caches
-    Address? cached = _cachedAddresses[network];
-    if (cached == null) {
-      // TODO: compress public key?
-      VerifyKey key = publicKey;
-      var data = key.data.bytes;
-      assert(data != null && data.isNotEmpty, 'key data empty');
-      // generate and cache it
-      cached = BTCAddress.generate(data!, network!);
-      _cachedAddresses[network] = cached;
-    }
-    return cached;
+    VerifyKey key = publicKey;
+    // TODO: compress public key?
+    var data = key.data.bytes;
+    assert(data != null && data.isNotEmpty, 'key data empty');
+    // generate BTC address with public key data
+    return BTCAddress.generate(data!, network!);
   }
 }
 
@@ -142,25 +124,16 @@ class ETHMeta extends BaseMeta {
   @override
   bool get hasSeed => false;
 
-  // cache
-  Address? _cachedAddress;
-
   @override
   Address generateAddress(int? network) {
     assert(type == MetaType.ETH || type == '4', 'meta type error: $type');
-    assert(network == null || network == EntityType.USER, 'address type error: $network');
-    // check cache
-    Address? cached = _cachedAddress;
-    if (cached == null/* || cached.type != network*/) {
-      // 64 bytes key data without prefix 0x04
-      VerifyKey key = publicKey;
-      var data = key.data.bytes;
-      assert(data != null && data.isNotEmpty, 'key data empty');
-      // generate and cache it
-      cached = ETHAddress.generate(data!);
-      _cachedAddress = cached;
-    }
-    return cached;
+    assert(network == EntityType.USER, 'address type error: $network');
+    VerifyKey key = publicKey;
+    // 64 bytes key data without prefix 0x04
+    var data = key.data.bytes;
+    assert(data != null && data.isNotEmpty, 'key data empty');
+    // generate ETH address with public key data
+    return ETHAddress.generate(data!);
   }
 }
 
@@ -228,8 +201,9 @@ class BaseMetaFactory implements MetaFactory {
       assert(false, 'meta error: $meta');
       return null;
     }
+    final helper = sharedAccountExtensions.handler;
+    // create meta for type
     Meta out;
-    var helper = sharedAccountExtensions.handler;
     String? version = helper?.getMetaType(meta, '');
     switch (version) {
 
@@ -246,7 +220,7 @@ class BaseMetaFactory implements MetaFactory {
         break;
 
       default:
-        throw Exception('unknown meta type: $type');
+        throw Exception('unknown meta type: $version');
     }
     if (out.isValid) {
       return out;

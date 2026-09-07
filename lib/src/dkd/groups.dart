@@ -114,6 +114,9 @@ class JoinGroupCommand extends BaseGroupCommand implements JoinCommand {
   JoinGroupCommand([super.dict]);
 
   JoinGroupCommand.from(ID group) : super.fromCmd(GroupCommand.JOIN, group);
+
+  @override
+  String get ask => getString('text') ?? '';
 }
 
 
@@ -124,6 +127,9 @@ class QuitGroupCommand extends BaseGroupCommand implements QuitCommand {
   QuitGroupCommand([super.dict]);
 
   QuitGroupCommand.from(ID group) : super.fromCmd(GroupCommand.QUIT, group);
+
+  @override
+  String get bye => getString('text') ?? '';
 }
 
 

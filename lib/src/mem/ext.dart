@@ -43,4 +43,14 @@ extension MemoryCacheExtension on AccountExtensions {
   MemoryCache<String, ID> get idCache => _idCache;
   set idCache(MemoryCache<String, ID> cache) => _idCache = cache;
 
+  ///  Call it when received 'UIApplicationDidReceiveMemoryWarningNotification',
+  ///  this will remove 50% of cached objects
+  ///
+  /// @return number of survivors
+  int reduceMemory() {
+    int cnt1 = _addressCache.reduceMemory();
+    int cnt2 = _idCache.reduceMemory();
+    return cnt1 + cnt2;
+  }
+
 }

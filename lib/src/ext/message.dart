@@ -31,18 +31,16 @@
 import 'dart:typed_data';
 
 import 'package:dimp/crypto.dart';
-import 'package:dimp/dkd.dart';
 import 'package:dimp/mkm.dart';
-import 'package:dimp/ext.dart';
 
 import 'package:dkd/dkd.dart';  // FIXME: upgrade 'dkd'
 
 
-/// Message GeneralFactory
+/// Message General Helper
 /// ~~~~~~~~~~~~~~~~~~~~~~
-class MessageGeneralFactory implements MessageHandler,
-                                       ContentHelper, EnvelopeHelper,
-                                       InstantMessageHelper, SecureMessageHelper, ReliableMessageHelper {
+class GeneralMessageHelper implements MessageHandler,
+                                      ContentHelper, EnvelopeHelper,
+                                      InstantMessageHelper, SecureMessageHelper, ReliableMessageHelper {
 
   final Map<String, ContentFactory> _contentFactories = {};
 

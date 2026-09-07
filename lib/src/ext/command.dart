@@ -35,10 +35,10 @@ import 'package:dimp/ext.dart';
 import '../dkd/receipt.dart';
 
 
-///  Command GeneralFactory
+///  Command General Helper
 ///  ~~~~~~~~~~~~~~~~~~~~~~
 
-class CommandGeneralFactory implements CommandHandler, CommandHelper {
+class GeneralCommandHelper implements CommandHandler, CommandHelper {
 
   final Map<String, CommandFactory> _commandFactories = {};
 

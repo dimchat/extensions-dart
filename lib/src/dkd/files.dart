@@ -168,10 +168,22 @@ class AudioFileContent extends BaseFileContent implements AudioContent {
       : super.from(ContentType.AUDIO, data, filename, url, password);
 
   @override
+  double get duration => Converter.getDouble(this['duration']) ?? 0;
+
+  @override
+  set duration(double value) => this['duration'] = value;
+
+  @override
   String? get text => getString('text');
 
   @override
-  set text(String? asr) => this['text'] = asr;
+  set text(String? asr) {
+    if (asr == null) {
+      remove('text');
+    } else {
+      this['text'] = asr;
+    }
+  }
 
 }
 

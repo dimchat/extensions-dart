@@ -47,12 +47,14 @@ abstract interface class MemoryCache<K, V> {
   /// Returns: Cached value (null if key not found or value is null)
   V? get(K key);
 
-  /// Stores a value in the cache (or removes it if value is null).
+  /// Stores a value in the cache.
   ///
   /// Parameters:
   /// - [key]   : Cache key to associate with the value (non-null)
   /// - [value] : Value to cache (null = remove the key from cache)
-  void put(K key, V? value);
+  ///
+  /// Returns: The previous value associated with the key (null if none)
+  V? put(K key, V? value);
 
   /// Returns the current number of entries in the cache.
   ///
@@ -90,9 +92,15 @@ class ThanosCache<K, V> implements MemoryCache<K, V> {
   V? get(K key) => _caches[key];
 
   @override
-  void put(K key, V? value) => value == null
-      ? _caches.remove(key)        // Null value = remove key from cache
-      : _caches[key] = value;      // Non-null value = store/update entry
+  V? put(K key, V? value) {
+    if (value == null) {
+      // null value = remove key from cache
+      return _caches.remove(key);
+    }
+    V? old = _caches[key];
+    _caches[key] = value;
+    return old;
+  }
 
   @override
   int size() => _caches.length;

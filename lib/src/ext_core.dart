@@ -23,7 +23,6 @@
  * SOFTWARE.
  * =============================================================================
  */
-import 'package:dimp/crypto.dart';
 import 'package:dimp/ext.dart';
 
 import 'ext/account.dart';
@@ -37,7 +36,7 @@ mixin CoreExtensions {
   void registerAccountHelpers() {
 
     // mkm
-    var accountHelper = AccountGeneralFactory();
+    var accountHelper = GeneralAccountHelper();
     sharedAccountExtensions.addressHelper = accountHelper;
     sharedAccountExtensions.idHelper      = accountHelper;
     sharedAccountExtensions.metaHelper    = accountHelper;
@@ -50,7 +49,7 @@ mixin CoreExtensions {
   void registerMessageHelpers() {
 
     // dkd
-    var msgHelper = MessageGeneralFactory();
+    var msgHelper = GeneralMessageHelper();
     sharedMessageExtensions.contentHelper  = msgHelper;
     sharedMessageExtensions.envelopeHelper = msgHelper;
     sharedMessageExtensions.instantHelper  = msgHelper;
@@ -64,7 +63,7 @@ mixin CoreExtensions {
   void registerCommandHelpers() {
 
     // cmd
-    var cmdHelper = CommandGeneralFactory();
+    var cmdHelper = GeneralCommandHelper();
     sharedMessageExtensions.commandHandler = cmdHelper;
     sharedMessageExtensions.commandHelper  = cmdHelper;
 
