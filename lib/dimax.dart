@@ -3,8 +3,6 @@
 /// DIM Application eXtensions
 library dimax;
 
-export 'crypto.dart';
-
 export 'protocol.dart';
 
 export 'mkm.dart';

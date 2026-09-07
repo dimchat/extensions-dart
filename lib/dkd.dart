@@ -5,6 +5,8 @@ library dimax;
 
 export 'package:dimp/dkd.dart';
 
+// export 'src/protocol/version.dart';     // -> 'mkm.dart'
+// export 'src/protocol/docs.dart';        // -> 'mkm.dart'
 export 'src/protocol/contents.dart';
 export 'src/protocol/combine.dart';
 export 'src/protocol/files.dart';

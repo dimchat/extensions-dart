@@ -30,3 +30,6 @@ export 'src/mkm/meta_factory.dart';
 export 'src/mkm/document.dart';
 export 'src/mkm/docs.dart';
 export 'src/mkm/document_factory.dart';
+
+export 'src/protocol/version.dart';
+export 'src/protocol/docs.dart';
