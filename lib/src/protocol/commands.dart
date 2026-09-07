@@ -54,7 +54,7 @@ import '../dkd/commands.dart';
 abstract interface class MetaCommand implements Command {
 
   // ignore: constant_identifier_names
-  static const String META      = 'meta';       // querying/updating entity metadata
+  static const META      = 'meta';       // querying/updating entity metadata
 
   /// Gets the target entity ID (user/group ID) for this meta command.
   ///
@@ -117,7 +117,7 @@ abstract interface class MetaCommand implements Command {
 abstract interface class DocumentCommand implements MetaCommand {
 
   // ignore: constant_identifier_names
-  static const String DOCUMENTS = 'documents';  // querying/updating entity documents
+  static const DOCUMENTS = 'documents';  // querying/updating entity documents
 
   /// Gets the list of entity documents (Visa/Bulletin) for this command.
   ///

@@ -104,18 +104,25 @@ abstract interface class PageContent implements Content {
   //  Factories
   //
 
-  static PageContent create({Uri? url, String? html,
-    required String title, TransportableFile? icon, String? desc}) =>
-      WebPageContent.from(url: url, html: html,
-        title: title, icon: icon, desc: desc);
-
   static PageContent createFromURL(Uri url, {
-    required String title, TransportableFile? icon, String? desc}) =>
-      create(url: url, html: null, title: title, icon: icon, desc: desc);
+    required String title,
+    TransportableFile? icon,
+    String? desc,
+  }) => WebPageContent.from(url: url, html: null,
+    title: title,
+    icon: icon,
+    desc: desc,
+  );
 
   static PageContent createFromHTML(String html, {
-    required String title, TransportableFile? icon, String? desc}) =>
-      create(url: null, html: html, title: title, icon: icon, desc: desc);
+    required String title,
+    TransportableFile? icon,
+    String? desc,
+  }) => WebPageContent.from(url: null, html: html,
+    title: title,
+    icon: icon,
+    desc: desc,
+  );
 
 }
 

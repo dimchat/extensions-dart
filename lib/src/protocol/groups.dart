@@ -56,8 +56,8 @@ abstract interface class HistoryCommand implements Command {
 
   //-------- history command names begin --------
   // account
-  static const String REGISTER = "register";
-  static const String SUICIDE  = "suicide";
+  static const REGISTER = "register";
+  static const SUICIDE  = "suicide";
 //-------- history command names end --------
 }
 // ignore_for_file: constant_identifier_names
@@ -85,19 +85,19 @@ abstract interface class GroupCommand implements HistoryCommand {
 
   //-------- group command names begin --------
   // founder/owner
-  static const String FOUND    = "found";
-  static const String ABDICATE = "abdicate";
+  static const FOUND    = "found";
+  static const ABDICATE = "abdicate";
   // member
-  static const String INVITE   = "invite";
-  static const String EXPEL    = "expel";  // Deprecated (use 'reset' instead)
-  static const String JOIN     = "join";
-  static const String QUIT     = "quit";
-  //static const String QUERY  = "query";  // Deprecated
-  static const String RESET    = "reset";
+  static const INVITE   = "invite";
+  static const EXPEL    = "expel";  // Deprecated (use 'reset' instead)
+  static const JOIN     = "join";
+  static const QUIT     = "quit";
+  //static const QUERY  = "query";  // Deprecated
+  static const RESET    = "reset";
   // administrator/assistant
-  static const String HIRE     = "hire";
-  static const String FIRE     = "fire";
-  static const String RESIGN   = "resign";
+  static const HIRE     = "hire";
+  static const FIRE     = "fire";
+  static const RESIGN   = "resign";
   //-------- group command names end --------
 
   /// List of member IDs affected by this group command.
@@ -131,6 +131,10 @@ abstract interface class GroupCommand implements HistoryCommand {
 /// Used to record the history of inviting users to join a group.
 /// The [members] field contains the IDs of users being invited.
 abstract interface class InviteCommand implements GroupCommand {
+
+  /// The welcome/joining text sent with the invitation.
+  String get welcome;
+
 }
 
 
@@ -140,6 +144,10 @@ abstract interface class InviteCommand implements GroupCommand {
 /// This command is deprecated - use [ResetCommand] (RESET) instead for member removal.
 abstract interface class ExpelCommand implements GroupCommand {
   /// Deprecated (use 'reset' instead)
+
+  /// The farewell/leaving text sent with the expulsion.
+  String get away;
+
 }
 
 
@@ -186,4 +194,8 @@ abstract interface class QuitCommand implements GroupCommand {
 /// }
 /// ```
 abstract interface class ResetCommand implements GroupCommand {
+
+  /// The confirmation text sent with the reset command.
+  String get confirm;
+
 }

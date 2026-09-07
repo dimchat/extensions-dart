@@ -74,7 +74,7 @@ import 'package:dimp/ext.dart';
 abstract interface class ReceiptCommand implements Command {
 
   // ignore: constant_identifier_names
-  static const String RECEIPT   = 'receipt';    // message receipt/acknowledgment
+  static const RECEIPT   = 'receipt';    // message receipt/acknowledgment
 
   /// Gets the receipt comment/feedback text.
   ///

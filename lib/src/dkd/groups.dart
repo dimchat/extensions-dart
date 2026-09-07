@@ -93,6 +93,9 @@ class InviteGroupCommand extends BaseGroupCommand implements InviteCommand {
 
   InviteGroupCommand.from(ID group, {List<ID>? members})
       : super.fromCmd(GroupCommand.INVITE, group, members: members);
+
+  @override
+  String get welcome => getString('text') ?? '';
 }
 
 
@@ -104,6 +107,9 @@ class ExpelGroupCommand extends BaseGroupCommand implements ExpelCommand {
 
   ExpelGroupCommand.from(ID group, {List<ID>? members})
       : super.fromCmd(GroupCommand.EXPEL, group, members: members);
+
+  @override
+  String get away => getString('text') ?? '';
 }
 
 
@@ -141,4 +147,7 @@ class ResetGroupCommand extends BaseGroupCommand implements ResetCommand {
 
   ResetGroupCommand.from(ID group, {required List<ID> members})
       : super.fromCmd(GroupCommand.RESET, group, members: members);
+
+  @override
+  String get confirm => getString('text') ?? '';
 }
