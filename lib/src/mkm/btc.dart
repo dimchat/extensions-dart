@@ -33,19 +33,18 @@ import 'dart:typed_data';
 import 'package:dimp/crypto.dart';
 import 'package:dimp/mkm.dart';
 
-///  Address like BitCoin
-///  ~~~~~~~~~~~~~~~~~~~~
+/// Address like BitCoin.
 ///
-///      data format: "network+digest+code"
-///          network    --  1 byte
-///          digest     -- 20 bytes
-///          check code --  4 bytes
+/// data format: "network+digest+code"
+///     network    --  1 byte
+///     digest     -- 20 bytes
+///     check code --  4 bytes
 ///
-///      algorithm:
-///          fingerprint = PK.data
-///          digest      = ripemd160(sha256(fingerprint));
-///          code        = sha256(sha256(network + digest)).prefix(4);
-///          address     = base58_encode(network + digest + code);
+/// algorithm:
+///     fingerprint = PK.data
+///     digest      = ripemd160(sha256(fingerprint));
+///     code        = sha256(sha256(network + digest)).prefix(4);
+///     address     = base58_encode(network + digest + code);
 ///
 final class BTCAddress extends ConstantString implements Address {
   BTCAddress(super.string, int network) : _type = network;
@@ -56,11 +55,12 @@ final class BTCAddress extends ConstantString implements Address {
   int get network => _type;
 
 
-  ///  Generate BTC address with fingerprint and network ID
+  /// Generate BTC address with fingerprint and network ID.
   ///
-  /// @param fingerprint - meta.fingerprint or key.data
-  /// @param network     - address type
-  /// @return Address object
+  /// [fingerprint] is the meta.fingerprint or key.data.
+  /// [network] is the address type.
+  ///
+  /// Returns the address object.
   static BTCAddress generate(Uint8List fingerprint, int network) {
     // 1. digest = ripemd160(sha256(fingerprint))
     Uint8List digest = RIPEMD160.digest(SHA256.digest(fingerprint));
@@ -78,10 +78,11 @@ final class BTCAddress extends ConstantString implements Address {
     return BTCAddress(Base58.encode(bb.toBytes()), network);
   }
 
-  ///  Parse a string for BTC address
+  /// Parse a string for BTC address.
   ///
-  /// @param address - address string
-  /// @return null on error
+  /// [address] is the address string.
+  ///
+  /// Returns null on error.
   static BTCAddress? parse(String address) {
     if (address.length < 26 || address.length > 35) {
       return null;

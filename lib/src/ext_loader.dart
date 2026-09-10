@@ -28,11 +28,17 @@ import 'ext_entity.dart';
 import 'ext_msg.dart';
 
 
-/// Core Extensions Loader
-/// ~~~~~~~~~~~~~~~~~~~~~~
+/// Core extensions loader.
+///
+/// Mixes in [CoreExtensions], [EntityExtensions] and
+/// [MessageFactoryExtensions] to initialize the whole SDK,
+/// registering default helpers and factories.
 class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExtensions {
 
-  /// Register core factories
+  /// Register core factories.
+  ///
+  /// This is the single entry to initialize the extension SDK:
+  /// loads core helpers, entity factories and message factories.
   void load() {
 
     loadCoreExtensions();
@@ -43,7 +49,7 @@ class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExten
 
   }
 
-  ///  Core extensions
+  /// Register core helpers (account/message/command).
   // protected
   void loadCoreExtensions() {
 
@@ -54,7 +60,7 @@ class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExten
 
   }
 
-  ///  ID, Address, Meta, Document parsers
+  /// Register entity factories (ID/Address/Meta/Document).
   // protected
   void loadEntityExtensions() {
 
@@ -67,7 +73,7 @@ class ExtensionLoader with CoreExtensions, EntityExtensions, MessageFactoryExten
 
   }
 
-  /// Message Factories
+  /// Register message/command factories.
   // protected
   void loadMessageExtensions() {
 

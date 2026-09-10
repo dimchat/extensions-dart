@@ -34,23 +34,30 @@ import '../protocol/groups.dart';
 import '../dkd/base.dart';
 
 
-///
-/// HistoryCommand
-///
 class BaseHistoryCommand extends BaseCommand implements HistoryCommand {
+
+  /// Create history command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   BaseHistoryCommand([super.dict]);
 
+  /// Create history command with the given command [cmd].
   BaseHistoryCommand.fromCmd(String cmd)
       : super.fromType(ContentType.HISTORY, cmd);
 }
 
 
-///
-/// GroupCommand
-///
 class BaseGroupCommand extends BaseHistoryCommand implements GroupCommand {
+
+  /// Create group command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   BaseGroupCommand([super.dict]);
 
+  /// Create group command with the given [cmd], [group] and [members].
+  ///
+  /// [cmd] is the group command name; [group] is the group ID;
+  /// [members] are the member IDs (optional).
   BaseGroupCommand.fromCmd(String cmd, ID group, {List<ID>? members})
       : super.fromCmd(cmd) {
     this.group = group;
@@ -85,12 +92,16 @@ class BaseGroupCommand extends BaseHistoryCommand implements GroupCommand {
 }
 
 
-///
-/// InviteCommand
-///
 class InviteGroupCommand extends BaseGroupCommand implements InviteCommand {
+
+  /// Create invite command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   InviteGroupCommand([super.dict]);
 
+  /// Create invite command with the given [group] and [members].
+  ///
+  /// [group] is the group ID; [members] are the member IDs to invite.
   InviteGroupCommand.from(ID group, {List<ID>? members})
       : super.fromCmd(GroupCommand.INVITE, group, members: members);
 
@@ -103,8 +114,15 @@ class InviteGroupCommand extends BaseGroupCommand implements InviteCommand {
 /// ExpelCommand (Deprecated, use 'reset' instead)
 ///
 class ExpelGroupCommand extends BaseGroupCommand implements ExpelCommand {
+
+  /// Create expel command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   ExpelGroupCommand([super.dict]);
 
+  /// Create expel command with the given [group] and [members].
+  ///
+  /// [group] is the group ID; [members] are the member IDs to expel.
   ExpelGroupCommand.from(ID group, {List<ID>? members})
       : super.fromCmd(GroupCommand.EXPEL, group, members: members);
 
@@ -113,12 +131,14 @@ class ExpelGroupCommand extends BaseGroupCommand implements ExpelCommand {
 }
 
 
-///
-/// JoinCommand
-///
 class JoinGroupCommand extends BaseGroupCommand implements JoinCommand {
+
+  /// Create join command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   JoinGroupCommand([super.dict]);
 
+  /// Create join command with the given [group].
   JoinGroupCommand.from(ID group) : super.fromCmd(GroupCommand.JOIN, group);
 
   @override
@@ -126,12 +146,14 @@ class JoinGroupCommand extends BaseGroupCommand implements JoinCommand {
 }
 
 
-///
-/// QuitCommand
-///
 class QuitGroupCommand extends BaseGroupCommand implements QuitCommand {
+
+  /// Create quit command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   QuitGroupCommand([super.dict]);
 
+  /// Create quit command with the given [group].
   QuitGroupCommand.from(ID group) : super.fromCmd(GroupCommand.QUIT, group);
 
   @override
@@ -139,12 +161,16 @@ class QuitGroupCommand extends BaseGroupCommand implements QuitCommand {
 }
 
 
-///
-/// ResetCommand
-///
 class ResetGroupCommand extends BaseGroupCommand implements ResetCommand {
+
+  /// Create reset command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   ResetGroupCommand([super.dict]);
 
+  /// Create reset command with the given [group] and [members].
+  ///
+  /// [group] is the group ID; [members] are all members after reset.
   ResetGroupCommand.from(ID group, {required List<ID> members})
       : super.fromCmd(GroupCommand.RESET, group, members: members);
 

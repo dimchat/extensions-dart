@@ -1,3 +1,7 @@
+## 2.5.0
+
+- Remove plugins.
+
 ## 2.4.3
 
 - Check broadcast message.

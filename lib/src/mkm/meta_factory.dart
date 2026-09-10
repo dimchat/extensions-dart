@@ -138,9 +138,12 @@ class ETHMeta extends BaseMeta {
 }
 
 
-///  Base Meta Factory
-///  ~~~~~~~~~~~~~~~~~
+/// Base meta factory.
+///
+/// Creates/parses metas by [type] (mkm/btc/eth/...).
 class BaseMetaFactory implements MetaFactory {
+
+  /// Create factory for the given meta [type].
   BaseMetaFactory(this.type);
 
   // protected

@@ -39,15 +39,14 @@ import 'document.dart';
 
 ///
 /// Base Document for User
-/// ~~~~~~~~~~~~~~~~~~~~~~
 ///
 class BaseVisa extends BaseDocument implements Visa {
   BaseVisa([super.dict]);
 
-  /// Public Key for encryption
-  /// ~~~~~~~~~~~~~~~~~~~~~~~~~
-  /// For safety considerations, the visa.key which used to encrypt message data
-  /// should be different with meta.key
+  /// Public key for encryption.
+  ///
+  /// For safety considerations, the visa.key which used to encrypt
+  /// message data should be different with meta.key.
   EncryptKey? _key;
 
   /// Avatar URL
@@ -117,7 +116,6 @@ class BaseVisa extends BaseDocument implements Visa {
 
 ///
 /// Base Document for Group
-/// ~~~~~~~~~~~~~~~~~~~~~~~
 ///
 class BaseBulletin extends BaseDocument implements Bulletin {
   BaseBulletin([super.dict]);

@@ -35,8 +35,11 @@ import '../protocol/array.dart';
 
 import 'base.dart';
 
-/// ArrayContent
 class ListContent extends BaseContent implements ArrayContent {
+
+  /// Create content array with a raw map.
+  ///
+  /// [dict] is the raw content map.
   ListContent([super.dict]);
 
   List<Content>? _list;

@@ -35,13 +35,20 @@ import '../protocol/quote.dart';
 import '../dkd/base.dart';
 
 
-/// QuoteContent
 class BaseQuoteContent extends BaseContent implements QuoteContent {
+
+  /// Create quote content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   BaseQuoteContent([super.dict]);
 
   /// original message envelope
   Envelope? _env;
 
+  /// Create quote content with the given [text] and [origin].
+  ///
+  /// [text] is the quote text; [origin] is the envelope of the
+  /// original message being quoted.
   BaseQuoteContent.from(String text, Mapping origin) : super.fromType(ContentType.QUOTE) {
     // text message
     this['text'] = text;

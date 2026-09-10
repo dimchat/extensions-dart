@@ -35,9 +35,6 @@ import '../protocol/files.dart';
 import '../dkd/base.dart';
 
 
-///
-/// File Content
-///
 class BaseFileContent extends BaseContent implements FileContent {
   BaseFileContent([super.dict]) {
     wrapper = TransportableFileWrapper.create(super.toMap());
@@ -101,15 +98,20 @@ class BaseFileContent extends BaseContent implements FileContent {
 }
 
 
-///
-/// ImageContent
-///
 class ImageFileContent extends BaseFileContent implements ImageContent {
+
+  /// Create image content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   ImageFileContent([super.dict]);
 
   /// small image
   TransportableFile? _thumbnail;
 
+  /// Create image content with the given components.
+  ///
+  /// [data] is the image data; [filename] is the file name;
+  /// [url] is the download URL; [password] is the decrypt key.
   ImageFileContent.from(TransportableData? data, String? filename,
       Uri? url, DecryptKey? password)
       : super.from(ContentType.IMAGE, data, filename, url, password);
@@ -157,12 +159,17 @@ class ImageFileContent extends BaseFileContent implements ImageContent {
 }
 
 
-///
-/// AudioContent
-///
 class AudioFileContent extends BaseFileContent implements AudioContent {
+
+  /// Create audio content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   AudioFileContent([super.dict]);
 
+  /// Create audio content with the given components.
+  ///
+  /// [data] is the audio data; [filename] is the file name;
+  /// [url] is the download URL; [password] is the decrypt key.
   AudioFileContent.from(TransportableData? data, String? filename,
       Uri? url, DecryptKey? password)
       : super.from(ContentType.AUDIO, data, filename, url, password);
@@ -188,15 +195,20 @@ class AudioFileContent extends BaseFileContent implements AudioContent {
 }
 
 
-///
-/// VideoContent
-///
 class VideoFileContent extends BaseFileContent implements VideoContent {
+
+  /// Create video content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   VideoFileContent([super.dict]);
 
   /// small image
   TransportableFile? _snapshot;
 
+  /// Create video content with the given components.
+  ///
+  /// [data] is the video data; [filename] is the file name;
+  /// [url] is the download URL; [password] is the decrypt key.
   VideoFileContent.from(TransportableData? data, String? filename,
       Uri? url, DecryptKey? password)
       : super.from(ContentType.VIDEO, data, filename, url, password);

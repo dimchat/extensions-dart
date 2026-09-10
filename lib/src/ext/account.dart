@@ -35,8 +35,10 @@ import 'package:dimp/ext.dart';
 import '../protocol/version.dart';
 
 
-///  Account General Helper
-///  ~~~~~~~~~~~~~~~~~~~~~~
+/// General account helper.
+///
+/// Creates/parses address, ID, meta and document with the
+/// registered factories.
 class GeneralAccountHelper implements AccountHandler,
                                       AddressHelper, IDHelper,
                                       MetaHelper, DocumentHelper {
@@ -78,12 +80,19 @@ class GeneralAccountHelper implements AccountHandler,
     return ID.parse(doc['did']);
   }
 
+  /// Get a mutable map from an object.
+  ///
+  /// [dict] is a raw map or a mapping instance;
+  /// returns null if it cannot be converted.
   // protected
   MutableMapping? getMap(Object dict) {
     Map? info = Wrapper.getMap(dict);
     return info?.asMutableMapping();
   }
 
+  /// Get a string value from an object.
+  ///
+  /// [str] is any object; returns its string form, or '' if null.
   // protected
   String getString(Object str) {
     String? text = Wrapper.getString(str);
@@ -91,7 +100,7 @@ class GeneralAccountHelper implements AccountHandler,
   }
 
   ///
-  ///   Address
+  /// Address
   ///
 
   @override
@@ -122,7 +131,7 @@ class GeneralAccountHelper implements AccountHandler,
   }
 
   ///
-  ///   ID
+  /// ID
   ///
 
   @override
@@ -160,7 +169,7 @@ class GeneralAccountHelper implements AccountHandler,
   }
 
   ///
-  ///   Meta
+  /// Meta
   ///
 
   @override

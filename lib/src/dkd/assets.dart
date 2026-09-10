@@ -35,8 +35,11 @@ import '../protocol/assets.dart';
 import '../dkd/base.dart';
 
 
-/// MoneyContent
 class BaseMoneyContent extends BaseContent implements MoneyContent {
+
+  /// Create money content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   BaseMoneyContent([super.dict]);
 
   BaseMoneyContent.fromType(String msgType, {required String currency, required num amount})
@@ -64,8 +67,11 @@ class BaseMoneyContent extends BaseContent implements MoneyContent {
 }
 
 
-/// TransferContent
 class TransferMoneyContent extends BaseMoneyContent implements TransferContent {
+
+  /// Create transfer content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   TransferMoneyContent([super.dict]);
 
   TransferMoneyContent.from({required String currency, required num amount})

@@ -37,8 +37,6 @@ import 'base.dart';
 
 
 ///  General Command Factory
-///  ~~~~~~~~~~~~~~~~~~~~~~~
-
 class GeneralCommandFactory implements ContentFactory, CommandFactory {
 
   @override
@@ -73,6 +71,9 @@ class GeneralCommandFactory implements ContentFactory, CommandFactory {
 }
 
 
+/// History command factory.
+///
+/// Creates history commands (with 'history' parameter).
 class HistoryCommandFactory extends GeneralCommandFactory {
 
   @override
@@ -91,6 +92,10 @@ class HistoryCommandFactory extends GeneralCommandFactory {
 }
 
 
+/// Group command factory.
+///
+/// Creates group commands, dispatching by the group command
+/// name (invite/expel/join/quit/reset/...).
 class GroupCommandFactory extends HistoryCommandFactory {
 
   @override

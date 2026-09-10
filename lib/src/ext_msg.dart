@@ -46,9 +46,16 @@ import 'dkd/cmd_fact.dart';
 import 'msg/factory.dart';
 
 
+/// Message factory extensions.
+///
+/// Registers the default factories for messages, contents, commands
+/// and their subtypes, so that they can be parsed by type automatically.
 mixin MessageFactoryExtensions {
 
-  ///  Message factories
+  /// Register the default message factories.
+  ///
+  /// Sets a single [MessageFactory] as the factory for
+  /// [Envelope], [InstantMessage], [SecureMessage] and [ReliableMessage].
   // protected
   void registerMessageFactories() {
 
@@ -63,7 +70,9 @@ mixin MessageFactoryExtensions {
 
   }
 
-  ///  Core content factories
+  /// Register the default content factories.
+  ///
+  /// Maps each [ContentType] to its concrete [Content] implementation.
   // protected
   void registerContentFactories() {
 
@@ -113,7 +122,9 @@ mixin MessageFactoryExtensions {
 
   }
 
-  ///  Core command factories
+  /// Register the default command factories.
+  ///
+  /// Maps each command name to its concrete [Command] implementation.
   // protected
   void registerCommandFactories() {
 
@@ -137,6 +148,11 @@ mixin MessageFactoryExtensions {
 
   }
 
+  /// Register a content factory for the given [msgType].
+  ///
+  /// [msgType] is the content type, such as "text"/"image"/"file".
+  /// [factory] is a custom [ContentFactory]; [creator] is a builder
+  /// wrapped into a [ContentParser] which checks 'sn' before creating.
   // protected
   void setContentFactory(String msgType, {ContentFactory? factory, ContentCreator? creator}) {
     if (factory != null) {
@@ -147,6 +163,11 @@ mixin MessageFactoryExtensions {
     }
   }
 
+  /// Register a command factory for the given [cmd].
+  ///
+  /// [cmd] is the command name, such as "meta"/"documents"/"receipt".
+  /// [factory] is a custom [CommandFactory]; [creator] is a builder
+  /// wrapped into a [CommandParser] which checks 'sn'/'command' before creating.
   // protected
   void setCommandFactory(String cmd, {CommandFactory? factory, CommandCreator? creator}) {
     if (factory != null) {
@@ -160,9 +181,16 @@ mixin MessageFactoryExtensions {
 }
 
 
+/// Builder function to create a [Content] from a raw map.
 typedef ContentCreator = Content? Function(Mapping dict);
+
+/// Builder function to create a [Command] from a raw map.
 typedef CommandCreator = Command? Function(Mapping dict);
 
+/// Content factory that builds content from a raw map.
+///
+/// Wraps a [ContentCreator] and verifies that the map contains
+/// a 'sn' field before creating the content instance.
 class ContentParser implements ContentFactory {
   ContentParser(this._builder);
   final ContentCreator _builder;
@@ -180,6 +208,10 @@ class ContentParser implements ContentFactory {
 
 }
 
+/// Command factory that builds command from a raw map.
+///
+/// Wraps a [CommandCreator] and verifies that the map contains
+/// both 'sn' and 'command' fields before creating the command instance.
 class CommandParser implements CommandFactory {
   CommandParser(this._builder);
   final CommandCreator _builder;

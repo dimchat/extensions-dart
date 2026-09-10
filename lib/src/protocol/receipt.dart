@@ -107,13 +107,11 @@ abstract interface class ReceiptCommand implements Command {
   /// to generate the "origin" field (removes sensitive data). Also handles group message
   /// receipt by setting the group ID if present in the original content.
   ///
-  /// @param text - Receipt comment/feedback text
+  /// [text] is the receipt comment/feedback text.
+  /// [head] is the optional envelope of the original message being acknowledged.
+  /// [body] is the optional content of the original message being acknowledged.
   ///
-  /// @param head - Optional envelope of the original message being acknowledged
-  ///
-  /// @param body - Optional content of the original message being acknowledged
-  ///
-  /// @return A new [ReceiptCommand] instance
+  /// Returns a new [ReceiptCommand] instance.
   static ReceiptCommand create(String text, Envelope head, Content? body) {
     var helper = sharedMessageExtensions.commandHandler;
     var content = helper?.createReceipt(text, head, body);

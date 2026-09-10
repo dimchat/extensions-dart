@@ -35,8 +35,9 @@ import 'package:dimp/ext.dart';
 import '../dkd/receipt.dart';
 
 
-///  Command General Helper
-///  ~~~~~~~~~~~~~~~~~~~~~~
+/// General command helper.
+///
+/// Creates/parses commands and manages command factories.
 
 class GeneralCommandHelper implements CommandHandler, CommandHelper {
 
@@ -71,6 +72,10 @@ class GeneralCommandHelper implements CommandHandler, CommandHelper {
     return content;
   }
 
+  /// Get a mutable map from an object.
+  ///
+  /// [dict] is a raw map or a mapping instance;
+  /// returns null if it cannot be converted.
   // protected
   MutableMapping? getMap(Object dict) {
     Map? info = Wrapper.getMap(dict);
@@ -115,6 +120,10 @@ class GeneralCommandHelper implements CommandHandler, CommandHelper {
     return factory?.parseCommand(info);
   }
 
+  /// Get the default command factory.
+  ///
+  /// [info] is the raw command map; returns the factory
+  /// registered for the 'command' field, or the 'ANY' factory.
   static CommandFactory? _defaultFactory(Mapping info) {
     MessageHandler? helper = sharedMessageExtensions.handler;
     ContentHelper? contentHelper = sharedMessageExtensions.contentHelper;

@@ -44,7 +44,8 @@ abstract interface class Visa implements Document {
 
   /// Sets the user's display name/nickname.
   ///
-  /// @param nickname - New display name for the user
+  /// [nickname] is the new display name for the user.
+  /// Set the user nickname.
   set name(String? nickname);
 
   /// Gets the user's public encryption key.
@@ -54,7 +55,9 @@ abstract interface class Visa implements Document {
 
   /// Sets the user's public encryption key.
   ///
-  /// @param pKey - New public key for message encryption
+  /// [pKey] is the new public key for message encryption.
+  ///
+  /// Set the public key for encryption.
   set publicKey(EncryptKey? pKey);
 
   /// Gets the user's avatar image (URL/Base64).
@@ -64,7 +67,9 @@ abstract interface class Visa implements Document {
 
   /// Sets the user's avatar image (URL/Base64).
   ///
-  /// @param img - New avatar image (URL/Base64)
+  /// [img] is the new avatar image (URL/Base64).
+  ///
+  /// Set the avatar image.
   set avatar(TransportableFile? img);
 
 }
@@ -80,7 +85,9 @@ abstract interface class Bulletin implements Document {
 
   /// Sets the group's display name/title.
   ///
-  /// @param title - New title for the group
+  /// [title] is the new title for the group.
+  ///
+  /// Set the group name.
   set name(String? title);
 
   /// Gets the group founder's user ID.

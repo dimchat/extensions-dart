@@ -36,12 +36,16 @@ import '../protocol/forward.dart';
 import 'base.dart';
 
 
-/// ForwardContent
 class SecretContent extends BaseContent implements ForwardContent {
+
+  /// Create forward content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   SecretContent([super.dict]);
 
   List<ReliableMessage>? _secrets;
 
+  /// Create forward content with the given [messages].
   SecretContent.fromMessages(List<ReliableMessage> messages)
       : super.fromType(ContentType.FORWARD) {
     // secret messages

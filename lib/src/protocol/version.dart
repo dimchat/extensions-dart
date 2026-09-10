@@ -57,6 +57,9 @@ final class MetaType {
   MetaType._();
 
   static const DEFAULT = '1';
+
+  /// MKM: username@address
+  /// (algorithm version 1)
   static const MKM     = '1';  // 0000 0001: username@address
 
   /// Bitcoin
@@ -72,13 +75,24 @@ final class MetaType {
 }
 
 
+/// Document types.
+///
+/// data format: {
+///     "type"      : "visa",  // document type
+///     "data"      : "{JsON data}",
+///     "signature" : "{Base64 signature}",
+///     ...         // other properties
+/// }
 final class DocumentType {
   DocumentType._();
 
-  static const VISA     = 'visa';     // for user info (communicate key)
+  /// Visa document: for user info (communicate key).
+  static const VISA     = 'visa';
 
-  static const PROFILE  = 'profile';  // for user profile (reserved)
+  /// Profile document: for user profile (reserved).
+  static const PROFILE  = 'profile';
 
-  static const BULLETIN = 'bulletin'; // for group info (owner, administrators and assistants)
+  /// Bulletin document: for group info (owner, administrators and assistants).
+  static const BULLETIN = 'bulletin';
 
 }

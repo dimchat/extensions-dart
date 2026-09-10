@@ -73,23 +73,22 @@ abstract interface class MetaCommand implements Command {
 
   /// Creates a response meta command with entity metadata.
   ///
-  /// # Use this to send metadata back to a query request.
+  /// Use this to send metadata back to a query request.
   ///
-  /// @param did - Target entity ID (user/group ID)
+  /// [did] is the target entity ID (user/group ID).
+  /// [meta] is the metadata to return for the entity.
   ///
-  /// @param meta - Metadata to return for the entity
-  ///
-  /// @return A [MetaCommand] instance containing the metadata
+  /// Returns a [MetaCommand] instance containing the metadata.
   static MetaCommand response(ID did, Meta meta) =>
       BaseMetaCommand.fromCmd(META, did, meta);
 
   /// Creates a query meta command to request entity metadata.
   ///
-  /// # Use this to ask for metadata of a specific entity (meta field will be null).
+  /// Use this to ask for metadata of a specific entity (meta field will be null).
   ///
-  /// @param did - Target entity ID (user/group ID) to query
+  /// [did] is the target entity ID (user/group ID) to query.
   ///
-  /// @return A [MetaCommand] instance for metadata query
+  /// Returns a [MetaCommand] instance for metadata query.
   static MetaCommand query(ID did) =>
       BaseMetaCommand.fromCmd(META, did, null);
 
@@ -140,13 +139,11 @@ abstract interface class DocumentCommand implements MetaCommand {
   /// 1. Send metadata + documents to a new friend (handshake)
   /// 2. Respond to a document query request
   ///
-  /// @param did - Target entity ID (user/group ID)
+  /// [did] is the target entity ID (user/group ID).
+  /// [meta] is the optional metadata (for handshake scenarios).
+  /// [docs] is the list of documents to return for the entity.
   ///
-  /// @param meta - Optional metadata (for handshake scenarios)
-  ///
-  /// @param docs - List of documents to return for the entity
-  ///
-  /// @return A [DocumentCommand] instance containing the documents
+  /// Returns a [DocumentCommand] instance containing the documents.
   static DocumentCommand response(ID did, Meta? meta, List<Document> docs) =>
       BaseDocumentCommand.from(did, meta, docs);
 
@@ -156,11 +153,10 @@ abstract interface class DocumentCommand implements MetaCommand {
   /// 1. Query all documents for an entity (omit [lastTime])
   /// 2. Query incremental updates (provide [lastTime] for updates since then)
   ///
-  /// @param did - Target entity ID (user/group ID) to query
+  /// [did] is the target entity ID (user/group ID) to query.
+  /// [lastTime] is the optional timestamp for incremental updates.
   ///
-  /// @param lastTime - Optional: Timestamp for incremental updates
-  ///
-  /// @return A [DocumentCommand] instance for document query
+  /// Returns a [DocumentCommand] instance for document query.
   static DocumentCommand query(ID did, [DateTime? lastTime]) =>
       BaseDocumentCommand.query(did, lastTime);
 

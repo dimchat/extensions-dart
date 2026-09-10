@@ -11,6 +11,7 @@ environment:
 # Add regular dependencies here.
 dependencies:
   dimp: ^2.5.0
+  dkd: ^2.5.0
 
 dev_dependencies:
   lints: ^2.0.0

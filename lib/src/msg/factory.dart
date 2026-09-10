@@ -38,10 +38,14 @@ import 'package:dimp/msg.dart';
 import 'package:dkd/dkd.dart';  // FIXME: upgrade 'dkd'
 
 
-///  Message Factory
-///  ~~~~~~~~~~~~~~~
+/// Message factory.
+///
+/// Unified factory for [Envelope], [InstantMessage],
+/// [SecureMessage] and [ReliableMessage].
 
 class MessageFactory implements EnvelopeFactory, InstantMessageFactory, SecureMessageFactory, ReliableMessageFactory {
+
+  /// Initialize the factory with a random starting serial number.
   MessageFactory() {
     Random random = Random(DateTime.now().microsecondsSinceEpoch);
     _sn = random.nextInt(0x80000000);  // 0 ~ 0x7fffffff
@@ -49,9 +53,9 @@ class MessageFactory implements EnvelopeFactory, InstantMessageFactory, SecureMe
 
   int _sn = 0;
 
-  ///  next sn
+  /// Get the next serial number.
   ///
-  /// @return 1 ~ 2^31-1
+  /// Returns 1 ~ 2^31-1.
   /* synchronized */int _next() {
     assert(_sn >= 0, 'serial number error: $_sn');
     if (_sn < 0x7fffffff) {  // 2 ** 31 - 1

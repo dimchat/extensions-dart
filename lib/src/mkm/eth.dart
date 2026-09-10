@@ -33,15 +33,14 @@ import 'dart:typed_data';
 import 'package:dimp/crypto.dart';
 import 'package:dimp/mkm.dart';
 
-///  Address like Ethereum
-///  ~~~~~~~~~~~~~~~~~~~~~
+/// Address like Ethereum.
 ///
-///      data format: "0x{address}"
+/// data format: "0x{address}"
 ///
-///      algorithm:
-///          fingerprint = PK.data;
-///          digest      = keccak256(fingerprint);
-///          address     = hex_encode(digest.suffix(20));
+/// algorithm:
+///     fingerprint = PK.data;
+///     digest      = keccak256(fingerprint);
+///     address     = hex_encode(digest.suffix(20));
 ///
 final class ETHAddress extends ConstantString implements Address {
   ETHAddress(super.string);
@@ -64,10 +63,11 @@ final class ETHAddress extends ConstantString implements Address {
     return validate != null && validate == address;
   }
 
-  ///  Generate ETH address with key.data
+  /// Generate ETH address with key.data.
   ///
-  /// @param fingerprint = key.data
-  /// @return Address object
+  /// [fingerprint] is the key.data.
+  ///
+  /// Returns the address object.
   static ETHAddress generate(Uint8List fingerprint) {
     if (fingerprint.length == 65) {
       // skip first char
@@ -82,10 +82,11 @@ final class ETHAddress extends ConstantString implements Address {
     return ETHAddress('0x$address');
   }
 
-  ///  Parse a string for ETH address
+  /// Parse a string for ETH address.
   ///
-  /// @param address - address string
-  /// @return null on error
+  /// [address] is the address string.
+  ///
+  /// Returns null on error.
   static ETHAddress? parse(String address) {
     if (!_ETH.isETH(address)) {
       // not an ETH address

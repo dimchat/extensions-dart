@@ -35,10 +35,14 @@ import '../protocol/contents.dart';
 import '../dkd/base.dart';
 
 
-/// TextContent
 class BaseTextContent extends BaseContent implements TextContent {
+
+  /// Create text content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   BaseTextContent([super.dict]);
 
+  /// Create text content with the given [message].
   BaseTextContent.fromText(String message)
       : super.fromType(ContentType.TEXT) {
     this['text'] = message;
@@ -49,8 +53,11 @@ class BaseTextContent extends BaseContent implements TextContent {
 }
 
 
-/// PageContent
 class WebPageContent extends BaseContent implements PageContent {
+
+  /// Create web page content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   WebPageContent([super.dict]);
 
   /// web URL
@@ -140,6 +147,9 @@ class WebPageContent extends BaseContent implements PageContent {
     return locator;
   }
   // protected
+  /// Create a URL instance from string [str].
+  ///
+  /// Override this to customize URL parsing if needed.
   Uri? createURL(String str) => Uri.parse(str);
 
   @override
@@ -161,8 +171,11 @@ class WebPageContent extends BaseContent implements PageContent {
 }
 
 
-/// NameCard
 class NameCardContent extends BaseContent implements NameCard {
+
+  /// Create name card content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   NameCardContent([super.dict]);
 
   TransportableFile? _image;

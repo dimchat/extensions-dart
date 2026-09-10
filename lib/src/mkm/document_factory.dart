@@ -38,10 +38,13 @@ import 'docs.dart';
 import 'document.dart';
 
 
+/// General document factory.
 ///
-/// General Document Factory
-///
+/// Creates documents by [type], supporting VISA, BULLETIN
+/// and other (customized) document types.
 class GeneralDocumentFactory implements DocumentFactory {
+
+  /// Create factory for the given document [type].
   GeneralDocumentFactory(this.type);
 
   // protected
@@ -61,6 +64,9 @@ class GeneralDocumentFactory implements DocumentFactory {
     return createValidDocument(data, signature);
   }
 
+  /// Create an empty document.
+  ///
+  /// A new document with default properties will be created.
   // protected
   Document createEmptyDocument() {
     String docType = type;
@@ -82,6 +88,10 @@ class GeneralDocumentFactory implements DocumentFactory {
     return out;
   }
 
+  /// Create a valid document.
+  ///
+  /// [data] is the document data in JsON format; [signature]
+  /// is the signature of [data].
   // protected
   Document createValidDocument(String data, TransportableData signature) {
     String docType = type;

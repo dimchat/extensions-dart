@@ -80,13 +80,11 @@ abstract interface class QuoteContent implements Content {
   /// Automatically purifies the original message's envelope/content using [QuoteHelper]
   /// to generate the "origin" field in the quote message.
   ///
-  /// @param text - User's reply text to the original message
+  /// [text] is the user's reply text to the original message.
+  /// [head] is the envelope of the original message being quoted.
+  /// [body] is the content of the original message being quoted.
   ///
-  /// @param head - Envelope of the original message being quoted
-  ///
-  /// @param body - Content of the original message being quoted
-  ///
-  /// @return A new [QuoteContent] instance
+  /// Returns a new [QuoteContent] instance.
   static QuoteContent create(String text, Envelope head, Content body) {
     ID from = head.sender;
     ID? to = body.group;

@@ -36,8 +36,10 @@ import 'package:dimp/mkm.dart';
 import 'package:dkd/dkd.dart';  // FIXME: upgrade 'dkd'
 
 
-/// Message General Helper
-/// ~~~~~~~~~~~~~~~~~~~~~~
+/// General message helper.
+///
+/// Creates/parses content, envelope, instant/secure/reliable
+/// messages with the registered factories.
 class GeneralMessageHelper implements MessageHandler,
                                       ContentHelper, EnvelopeHelper,
                                       InstantMessageHelper, SecureMessageHelper, ReliableMessageHelper {
@@ -68,6 +70,10 @@ class GeneralMessageHelper implements MessageHandler,
     return group != null && group.isBroadcast;
   }
 
+  /// Get a mutable map from an object.
+  ///
+  /// [dict] is a raw map or a mapping instance;
+  /// returns null if it cannot be converted.
   // protected
   MutableMapping? getMap(Object dict) {
     Map? info = Wrapper.getMap(dict);

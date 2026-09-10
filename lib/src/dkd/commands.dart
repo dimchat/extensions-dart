@@ -34,14 +34,19 @@ import '../protocol/commands.dart';
 import '../dkd/base.dart';
 
 
-///
-/// MetaCommand
-///
 class BaseMetaCommand extends BaseCommand implements MetaCommand {
+
+  /// Create meta command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   BaseMetaCommand([super.dict]);
 
   Meta? _meta;
 
+  /// Create meta command with the given [cmd], entity [did] and [meta].
+  ///
+  /// [cmd] defaults to [MetaCommand.META]; [meta] is optional
+  /// (null for querying).
   BaseMetaCommand.fromCmd(String? cmd, ID did, Meta? meta)
       : super.fromCmd(cmd ?? MetaCommand.META) {
     // ID
@@ -65,14 +70,19 @@ class BaseMetaCommand extends BaseCommand implements MetaCommand {
   }
 }
 
-///
-/// DocumentCommand
-///
 class BaseDocumentCommand extends BaseMetaCommand implements DocumentCommand {
+
+  /// Create document command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   BaseDocumentCommand([super.dict]);
 
   List<Document>? _docs;
 
+  /// Create document command for updating.
+  ///
+  /// [did] is the entity ID; [meta] is the entity meta (optional);
+  /// [docs] are the document list to update (optional).
   BaseDocumentCommand.from(ID did, Meta? meta, List<Document>? docs)
       : super.fromCmd(DocumentCommand.DOCUMENTS, did, meta) {
     // document
@@ -81,6 +91,10 @@ class BaseDocumentCommand extends BaseMetaCommand implements DocumentCommand {
     }
     _docs = docs;
   }
+  /// Create document command for querying.
+  ///
+  /// [did] is the entity ID; [lastTime] is the timestamp to query
+  /// documents updated after it (optional).
   BaseDocumentCommand.query(ID did, [DateTime? lastTime])
       : super.fromCmd(DocumentCommand.DOCUMENTS, did, null) {
     // query with last document time

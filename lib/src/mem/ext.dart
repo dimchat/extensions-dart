@@ -29,8 +29,7 @@ import 'package:dimp/ext.dart';
 import 'cache.dart';
 
 
-/// MemoryCache Extensions
-/// ~~~~~~~~~~~~~~~~~~~~~~
+/// Memory cache extensions.
 
 MemoryCache<String, Address> _addressCache = ThanosCache<String, Address>();
 MemoryCache<String, ID>           _idCache = ThanosCache<String, ID>();
@@ -38,15 +37,19 @@ MemoryCache<String, ID>           _idCache = ThanosCache<String, ID>();
 extension MemoryCacheExtension on AccountExtensions {
 
   MemoryCache<String, Address> get addressCache => _addressCache;
+
+  /// Set the address cache.
   set addressCache(MemoryCache<String, Address> cache) => _addressCache = cache;
 
   MemoryCache<String, ID> get idCache => _idCache;
+
+  /// Set the ID cache.
   set idCache(MemoryCache<String, ID> cache) => _idCache = cache;
 
-  ///  Call it when received 'UIApplicationDidReceiveMemoryWarningNotification',
-  ///  this will remove 50% of cached objects
+  /// Call it when received 'UIApplicationDidReceiveMemoryWarningNotification',
+  /// this will remove 50% of cached objects.
   ///
-  /// @return number of survivors
+  /// Returns the number of survivors.
   int reduceMemory() {
     int cnt1 = _addressCache.reduceMemory();
     int cnt2 = _idCache.reduceMemory();

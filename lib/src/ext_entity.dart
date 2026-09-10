@@ -32,8 +32,15 @@ import 'mkm/id_factory.dart';
 import 'mkm/meta_factory.dart';
 
 
+/// Entity extensions.
+///
+/// Registers the default factories for address, ID, meta and document,
+/// so that entities can be created/parsed by type automatically.
 mixin EntityExtensions {
 
+  /// Register the default [IDFactory].
+  ///
+  /// Sets [IdentifierFactory] as the global ID factory.
   // protected
   void registerIDFactory() {
 
@@ -41,6 +48,9 @@ mixin EntityExtensions {
 
   }
 
+  /// Register the default [AddressFactory].
+  ///
+  /// Sets [BaseAddressFactory] as the global address factory.
   // protected
   void registerAddressFactory() {
 
@@ -48,6 +58,7 @@ mixin EntityExtensions {
 
   }
 
+  /// Register the default meta factories (MKM/BTC/ETH).
   // protected
   void registerMetaFactories() {
 
@@ -57,12 +68,21 @@ mixin EntityExtensions {
 
   }
 
+  /// Register a meta factory for the given [type].
+  ///
+  /// [type] is the meta algorithm type, such as "mkm"/"btc"/"eth".
+  /// [factory] is the factory instance; if null, a new
+  /// [BaseMetaFactory] for [type] will be created.
   // protected
   void setMetaFactory(String type, {MetaFactory? factory}) {
     factory ??= BaseMetaFactory(type);
     Meta.setFactory(type, factory);
   }
 
+  /// Register the default document factories.
+  ///
+  /// Registers factories for VISA, PROFILE, BULLETIN and the
+  /// wildcard type '*' (fallback for unknown document types).
   // protected
   void registerDocumentFactories() {
 
@@ -73,6 +93,12 @@ mixin EntityExtensions {
 
   }
 
+  /// Register a document factory for the given [type].
+  ///
+  /// [type] is the document type, such as "visa"/"profile"/"bulletin";
+  /// use '*' to register the default factory for unknown types.
+  /// [factory] is the factory instance; if null, a new
+  /// [GeneralDocumentFactory] for [type] will be created.
   // protected
   void setDocumentFactory(String type, {DocumentFactory? factory}) {
     factory ??= GeneralDocumentFactory(type);

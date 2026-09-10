@@ -35,12 +35,18 @@ import '../protocol/combine.dart';
 import '../dkd/base.dart';
 
 
-/// CombineContent
 class CombineForwardContent extends BaseContent implements CombineContent {
+
+  /// Create combine forward content with a raw map.
+  ///
+  /// [dict] is the raw content map.
   CombineForwardContent([super.dict]);
 
   List<InstantMessage>? _history;
 
+  /// Create combine forward content with the given [title] and [messages].
+  ///
+  /// [title] is the chat name; [messages] are the chat history.
   CombineForwardContent.fromTitle(String title, List<InstantMessage> messages)
       : super.fromType(ContentType.COMBINE_FORWARD) {
     // chat name

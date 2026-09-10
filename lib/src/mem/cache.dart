@@ -35,35 +35,34 @@
 /// method to reduce memory usage (critical for mobile/resource-constrained environments).
 ///
 /// Type Parameters:
-/// - [K] : Type of cache keys (must be hashable)
-/// - [V] : Type of cache values (can be nullable)
+/// [K] is the type of cache keys (must be hashable).
+/// [V] is the type of cache values (can be nullable).
 abstract interface class MemoryCache<K, V> {
 
   /// Retrieves a value from the cache by key.
   ///
-  /// Parameters:
-  /// - [key] : Cache key to look up (non-null)
+  /// [key] is the cache key to look up (non-null).
   ///
-  /// Returns: Cached value (null if key not found or value is null)
+  /// Returns the cached value (null if key not found or value is null).
   V? get(K key);
 
   /// Stores a value in the cache.
   ///
-  /// Parameters:
-  /// - [key]   : Cache key to associate with the value (non-null)
-  /// - [value] : Value to cache (null = remove the key from cache)
+  /// [key] is the cache key to associate with the value (non-null).
+  /// [value] is the value to cache (null = remove the key from cache).
   ///
-  /// Returns: The previous value associated with the key (null if none)
+  /// Returns the previous value associated with the key (null if none).
   V? put(K key, V? value);
 
   /// Returns the current number of entries in the cache.
   ///
-  /// Returns: Non-negative integer representing the count of cached key-value pairs
+  /// Returns a non-negative integer representing the count of
+  /// cached key-value pairs.
   int size();
 
   /// Reduces cache memory usage by evicting entries (implementation-specific logic).
   ///
-  /// Returns: Number of entries remaining in the cache after reduction
+  /// Returns the number of entries remaining in the cache after reduction.
   int reduceMemory();
 
 }
@@ -79,11 +78,11 @@ abstract interface class MemoryCache<K, V> {
 /// (inspired by Thanos snapping his fingers to kill half the universe), making it
 /// a deterministic eviction policy for memory optimization.
 ///
-/// Type Parameters:
-/// - [K] : Type of cache keys (must be hashable)
-/// - [V] : Type of cache values (can be nullable)
+/// [K] is the type of cache keys (must be hashable).
+/// [V] is the type of cache values (can be nullable).
 ///
-/// Note: Uses a standard [Map] as the underlying storage, with O(1) get/put operations.
+/// Note: uses a standard [Map] as the underlying storage,
+/// with O(1) get/put operations.
 class ThanosCache<K, V> implements MemoryCache<K, V> {
 
   final Map<K, V> _caches = {};
@@ -126,17 +125,18 @@ class ThanosCache<K, V> implements MemoryCache<K, V> {
 /// "Thanos can kill half lives of a world with a snap of the finger"
 ///
 /// Eviction logic:
-/// - Iterates through map entries in insertion order
-/// - Removes entries where the incremented finger counter is odd (keeps even entries)
-/// - Guarantees exactly 50% of entries are removed (deterministic eviction)
+/// - iterates through map entries in insertion order;
+/// - removes entries where the incremented finger counter is odd
+///   (keeps even entries);
+/// - guarantees exactly 50% of entries are removed (deterministic eviction).
 ///
-/// Parameters:
-/// - [planet] : The map (cache) to "snap" (modify in-place)
-/// - [finger] : Starting counter value (typically 0 for fresh snap)
+/// [planet] is the map (cache) to "snap" (modify in-place).
+/// [finger] is the starting counter value (typically 0 for fresh snap).
 ///
-/// Returns: Final value of the finger counter (total number of entries processed)
+/// Returns the final value of the finger counter (total number of
+/// entries processed).
 ///
-/// Note: Modifies the input map directly (in-place operation).
+/// Note: modifies the input map directly (in-place operation).
 int thanos(Map planet, int finger) {
   // if ++finger is odd, remove it,
   // else, let it go

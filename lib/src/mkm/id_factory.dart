@@ -34,10 +34,10 @@ import 'package:dimp/ext.dart';
 import '../mem/ext.dart';
 
 
+/// General ID factory.
 ///
-/// General ID Factory
-/// ~~~~~~~~~~~~~~~~~~
-///
+/// Creates/parses entity IDs with cache, concatenating
+/// the name, address and terminal components.
 class IdentifierFactory implements IDFactory {
 
   @override
@@ -65,12 +65,22 @@ class IdentifierFactory implements IDFactory {
     return did;
   }
 
+  /// Create a new [ID] instance.
+  ///
+  /// [identifier] is the full string form; [name] is the entity name;
+  /// [address] is the core address; [terminal] is the terminal/location.
+  ///
+  /// Override this method for customized ID implementations.
   // protected
   ID newID(String identifier, {String? name, required Address address, String? terminal}) {
     /// override for customized ID
     return Identifier(identifier, name: name, address: address, terminal: terminal);
   }
 
+  /// Parse an ID string.
+  ///
+  /// [identifier] is in "name@address[/terminal]" format;
+  /// returns an [ID] instance if parsing succeeds, null otherwise.
   // protected
   ID? parse(String identifier) {
     // split for "terminal"

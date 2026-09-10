@@ -37,8 +37,11 @@ import 'btc.dart';
 import 'eth.dart';
 
 
-///  Base Address Factory
-///  ~~~~~~~~~~~~~~~~~~~~
+/// Base address factory.
+///
+/// Parses address strings with cache, supporting
+/// broadcast addresses (anywhere/everywhere) and
+/// normal addresses (BTC/ETH/...).
 class BaseAddressFactory implements AddressFactory {
 
   @override
@@ -54,6 +57,10 @@ class BaseAddressFactory implements AddressFactory {
     return res;
   }
 
+  /// Parse an address string.
+  ///
+  /// [address] is the string representation; returns an [Address]
+  /// instance if the format is recognized, null otherwise.
   // protected
   Address? parse(String address) {
     int len = address.length;

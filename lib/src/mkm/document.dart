@@ -34,7 +34,19 @@ import 'package:dimp/crypto.dart';
 import 'package:dimp/mkm.dart';
 
 
+/// Base document.
+///
+/// data format: {
+///     "type"      : "visa",      // document type
+///     "data"      : "{JsON data}",   // document data (optional)
+///     "signature" : "{Base64 signature}",  // signature of data (optional)
+///     ...         // other properties
+/// }
 class BaseDocument extends Dictionary implements Document {
+
+  /// Create document with a raw map.
+  ///
+  /// [dict] is the raw document map.
   BaseDocument([super.dict]);
 
   String? _json;            // JsON.encode(properties)
@@ -43,14 +55,16 @@ class BaseDocument extends Dictionary implements Document {
   Map? _properties;
   int _status = 0;          // 1 for valid, -1 for invalid
 
-  ///  1. Create a new empty document
-  ///  2. Create entity document with data and signature loaded from local storage
+  /// Create a document.
   ///
-  /// @param docType   - document type
+  /// 1. If [data] and [signature] are both null, create a new
+  ///    empty document with default properties.
+  /// 2. Otherwise, create a document with [data] and [signature]
+  ///    loaded from local storage.
   ///
-  /// @param data      - document data in JsON format
-  ///
-  /// @param signature - signature of document data in Base64 format
+  /// [docType] is the document type.
+  /// [data] is the document data in JsON format (optional).
+  /// [signature] is the signature of [data] in Base64 format (optional).
   BaseDocument.fromType(String docType, {String? data, TransportableData? signature}) {
 
     // document type
@@ -85,17 +99,17 @@ class BaseDocument extends Dictionary implements Document {
   @override
   bool get isValid => _status > 0;
 
-  ///  Get serialized properties
+  /// Get serialized properties.
   ///
-  /// @return JsON string
+  /// Returns the JsON string of document data, or null if absent.
   String? _getData() {
     _json ??= getString('data');
     return _json;
   }
 
-  ///  Get signature for serialized properties
+  /// Get signature for serialized properties.
   ///
-  /// @return signature data
+  /// Returns the signature data, or null if absent.
   Uint8List? _getSignature() {
     TransportableData? ted = _sig;
     if (ted == null) {

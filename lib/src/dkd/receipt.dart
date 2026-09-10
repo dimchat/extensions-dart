@@ -36,11 +36,19 @@ import '../dkd/base.dart';
 
 
 class BaseReceiptCommand extends BaseCommand implements ReceiptCommand {
+
+  /// Create receipt command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   BaseReceiptCommand([super.dict]);
 
   /// original message envelope
   Envelope? _env;
 
+  /// Create receipt command with the given [text] and [origin].
+  ///
+  /// [text] is the receipt text; [origin] is the envelope of the
+  /// original message being responded to.
   BaseReceiptCommand.from(String text, Mapping? origin) : super.fromCmd(ReceiptCommand.RECEIPT) {
     // text message
     this['text'] = text;

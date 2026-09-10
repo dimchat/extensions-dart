@@ -34,6 +34,10 @@ import 'package:dimp/protocol.dart';
 
 
 class BaseContent extends Dictionary implements Content {
+
+  /// Create content with a raw map.
+  ///
+  /// [dict] is the raw content map, usually from network or storage.
   BaseContent([super.dict]);
 
   /// message type: text, image, ...
@@ -45,6 +49,9 @@ class BaseContent extends Dictionary implements Content {
   /// message time
   DateTime? _time;
 
+  /// Create content with the given [msgType].
+  ///
+  /// Generates a new serial number and message time automatically.
   BaseContent.fromType(String msgType) {
     DateTime now = DateTime.now();
     _type = msgType;
@@ -87,15 +94,21 @@ class BaseContent extends Dictionary implements Content {
 }
 
 
-///
-/// Command
-///
 class BaseCommand extends BaseContent implements Command  {
+
+  /// Create command with a raw map.
+  ///
+  /// [dict] is the raw command map.
   BaseCommand([super.dict]);
 
+  /// Create command with the given [msgType] and command [cmd].
   BaseCommand.fromType(String msgType, String cmd) : super.fromType(msgType) {
     this['command'] = cmd;
   }
+
+  /// Create command with the given command [cmd].
+  ///
+  /// The message type will be set to [ContentType.COMMAND] automatically.
   BaseCommand.fromCmd(String cmd) : this.fromType(ContentType.COMMAND, cmd);
 
   @override
