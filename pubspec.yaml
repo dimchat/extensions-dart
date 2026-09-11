@@ -1,6 +1,6 @@
 name: dimax
 description: DIM Application eXtensions
-version: 2.5.0
+version: 2.5.1
 homepage: https://github.com/dimchat/extensions-dart
 repository: https://github.com/dimchat/extensions-dart
 issue_tracker: https://github.com/dimchat/extensions-dart/issues
@@ -10,8 +10,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  dimp: ^2.5.0
-  dkd: ^2.5.0
+  dimp: ^2.5.2
 
 dev_dependencies:
   lints: ^2.0.0

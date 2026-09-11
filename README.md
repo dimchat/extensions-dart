@@ -34,9 +34,9 @@
 	   * BTC
 	   * ETH
    * Document
-	   * Visa __(User)__
+	   * Visa _(User)_
 	   * Profile
-	   * Bulletin __(Group)__
+	   * Bulletin _(Group)_
 2. Message Contents
    * Text Content
    * File Content
@@ -109,7 +109,7 @@ class CompatibleAddressFactory extends BaseAddressFactory {
 
 /// Unsupported Address
 /// ~~~~~~~~~~~~~~~~~~~
-class UnknownAddress extends ConstantString implements Address {
+final class UnknownAddress extends ConstantString implements Address {
   UnknownAddress(super.string);
 
   @override
@@ -133,7 +133,7 @@ class CompatibleMetaFactory extends BaseMetaFactory {
   @override
   Meta? parseMeta(Map meta) {
     Meta out;
-    var helper = sharedAccountExtensions.helper;
+    var helper = sharedAccountExtensions.handler;
     String? version = helper?.getMetaType(meta);
     switch (version) {
 

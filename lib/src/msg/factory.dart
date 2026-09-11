@@ -33,9 +33,10 @@ import 'dart:typed_data';
 
 import 'package:dimp/crypto.dart';
 import 'package:dimp/protocol.dart';
+import 'package:dimp/dkd.dart';
 import 'package:dimp/msg.dart';
+import 'package:dimp/ext.dart';
 
-import 'package:dkd/dkd.dart';  // FIXME: upgrade 'dkd'
 
 
 /// Message factory.

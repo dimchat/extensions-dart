@@ -18,6 +18,7 @@ export 'src/protocol/commands.dart';
 export 'src/protocol/receipt.dart';
 export 'src/protocol/groups.dart';
 
+export 'src/dkd/base.dart';
 export 'src/dkd/contents.dart';
 export 'src/dkd/combine.dart';
 export 'src/dkd/files.dart';

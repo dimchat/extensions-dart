@@ -1,3 +1,7 @@
+## 2.5.1
+
+- Export BaseContent.
+
 ## 2.5.0
 
 - Remove plugins.
