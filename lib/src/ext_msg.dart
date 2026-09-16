@@ -43,7 +43,11 @@ import 'dkd/receipt.dart';
 import 'dkd/groups.dart';
 
 import 'dkd/cmd_fact.dart';
-import 'msg/factory.dart';
+
+import 'msg/envelope.dart';
+import 'msg/instant.dart';
+import 'msg/secure.dart';
+import 'msg/reliable.dart';
 
 
 /// Message factory extensions.
@@ -54,19 +58,18 @@ mixin MessageFactoryExtensions {
 
   /// Register the default message factories.
   ///
-  /// Sets a single [MessageFactory] as the factory for
-  /// [Envelope], [InstantMessage], [SecureMessage] and [ReliableMessage].
+  /// Sets the factory implementations for envelope, instant,
+  /// secure and reliable messages.
   // protected
   void registerMessageFactories() {
 
     // Envelope factory
-    MessageFactory factory = MessageFactory();
-    Envelope.setFactory(factory);
+    Envelope.setFactory(GeneralEnvelopeFactory());
 
     // Message factories
-    InstantMessage.setFactory(factory);
-    SecureMessage.setFactory(factory);
-    ReliableMessage.setFactory(factory);
+    InstantMessage.setFactory(GeneralInstantMessageFactory());
+    SecureMessage.setFactory(GeneralSecureMessageFactory());
+    ReliableMessage.setFactory(GeneralReliableMessageFactory());
 
   }
 
