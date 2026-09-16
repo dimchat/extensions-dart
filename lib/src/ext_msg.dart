@@ -42,12 +42,8 @@ import 'dkd/commands.dart';
 import 'dkd/receipt.dart';
 import 'dkd/groups.dart';
 
-import 'dkd/cmd_fact.dart';
-
-import 'msg/envelope.dart';
-import 'msg/instant.dart';
-import 'msg/secure.dart';
-import 'msg/reliable.dart';
+import 'msg/cmd_facts.dart';
+import 'msg/msg_facts.dart';
 
 
 /// Message factory extensions.

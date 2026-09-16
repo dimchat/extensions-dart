@@ -66,9 +66,7 @@
 ### Address
 
 ```dart
-import 'package:dimp/crypto.dart';
-import 'package:dimax/mkm.dart';
-import 'package:dimax/ext.dart';
+import 'package:dimax/dimax.dart';
 
 
 class CompatibleAddressFactory extends BaseAddressFactory {
@@ -121,10 +119,7 @@ final class UnknownAddress extends ConstantString implements Address {
 ### Meta
 
 ```dart
-import 'package:dimp/crypto.dart';
-import 'package:dimp/mkm.dart';
-import 'package:dimp/ext.dart';
-import 'package:dimap/mkm.dart';
+import 'package:dimax/dimax.dart';
 
 
 class CompatibleMetaFactory extends BaseMetaFactory {
@@ -168,7 +163,6 @@ class CompatibleMetaFactory extends BaseMetaFactory {
 ### ExtensionLoader
 
 ```dart
-import 'package:dimp/dimp.dart';
 import 'package:dimax/dimax.dart';
 
 import 'compat/address.dart';

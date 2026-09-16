@@ -28,6 +28,7 @@
  * SOFTWARE.
  * ==============================================================================
  */
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:dimp/crypto.dart';
@@ -35,6 +36,80 @@ import 'package:dimp/protocol.dart';
 import 'package:dimp/dkd.dart';
 import 'package:dimp/msg.dart';
 import 'package:dimp/ext.dart';
+
+
+/// Envelope Factory
+class GeneralEnvelopeFactory implements EnvelopeFactory {
+
+  @override
+  Envelope createEnvelope({required ID sender, required ID receiver, DateTime? time}) {
+    return MessageEnvelope.from(sender: sender, receiver: receiver, time: time);
+  }
+
+  @override
+  Envelope? parseEnvelope(Mapping env) {
+    // check 'sender'
+    if (!env.containsKey('sender')) {
+      // env.sender should not empty
+      assert(false, 'envelope error: $env');
+      return null;
+    }
+    return MessageEnvelope(env);
+  }
+
+}
+
+
+/// InstantMessage Factory
+class GeneralInstantMessageFactory implements InstantMessageFactory {
+
+  /// Initialize the factory with a random starting serial number.
+  GeneralInstantMessageFactory() {
+    Random random = Random(DateTime.now().microsecondsSinceEpoch);
+    _sn = random.nextInt(0x80000000);  // 0 ~ 0x7fffffff
+  }
+
+  int _sn = 0;
+
+  /// Get the next serial number.
+  ///
+  /// Returns 1 ~ 2^31-1.
+  /* synchronized */int _next() {
+    assert(_sn >= 0, 'serial number error: $_sn');
+    if (_sn < 0x7fffffff) {  // 2 ** 31 - 1
+      _sn += 1;
+    } else {
+      _sn = 1;
+    }
+    return _sn;
+  }
+
+  @override
+  int generateSerialNumber(String? msgType, DateTime? now) {
+    // because we must make sure all messages in a same chat box won't have
+    // same serial numbers, so we can't use time-related numbers, therefore
+    // the best choice is a totally random number, maybe.
+    return _next();
+  }
+
+  @override
+  InstantMessage createInstantMessage(Envelope head, Content body) {
+    return PlainMessage.from(head, body);
+  }
+
+  @override
+  InstantMessage? parseInstantMessage(Mapping msg) {
+    // check 'sender', 'content'
+    if (!msg.containsKey('sender') || !msg.containsKey('content')) {
+      // msg.sender should not be empty
+      // msg.content should not be empty
+      assert(false, 'message error: $msg');
+      return null;
+    }
+    return PlainMessage(msg);
+  }
+
+}
 
 
 /// SecureMessage Factory
@@ -88,6 +163,41 @@ class GeneralSecureMessageFactory implements SecureMessageFactory {
       return NetworkMessage(msg);
     }
     return EncryptedMessage(msg);
+  }
+
+}
+
+
+/// ReliableMessage Factory
+class GeneralReliableMessageFactory implements ReliableMessageFactory {
+
+  @override
+  ReliableMessage createReliableMessage(SecureMessage sMsg, Uint8List signature) {
+    //
+    //  1. encode signature
+    //
+    TransportableData base64 = TransportableData.create(signature);
+    assert(base64.isNotEmpty, 'failed to encode signature: ${signature.length} byte(s)'
+        ' ${sMsg.sender} => ${sMsg.receiver}, ${sMsg.group}');
+    //
+    //  2. create message
+    //
+    MutableMapping info = sMsg.toMap();
+    info['signature'] = base64.serialize();
+    return NetworkMessage(info);
+  }
+
+  @override
+  ReliableMessage? parseReliableMessage(Mapping msg) {
+    // check 'sender', 'data', 'signature',
+    if (!msg.containsKey('sender') || !msg.containsKey('data') || !msg.containsKey('signature')) {
+      // msg.sender should not be empty
+      // msg.data should not be empty
+      // msg.signature should not be empty
+      assert(false, 'message error: $msg');
+      return null;
+    }
+    return NetworkMessage(msg);
   }
 
 }

@@ -30,9 +30,5 @@ export 'src/dkd/commands.dart';
 export 'src/dkd/receipt.dart';
 export 'src/dkd/groups.dart';
 
-export 'src/dkd/cmd_fact.dart';
-
-export 'src/msg/envelope.dart';
-export 'src/msg/instant.dart';
-export 'src/msg/secure.dart';
-export 'src/msg/reliable.dart';
+export 'src/msg/cmd_facts.dart';
+export 'src/msg/msg_facts.dart';
