@@ -8,8 +8,8 @@ export 'package:dimp/mkm.dart';
 //
 //  Address
 //
-export 'src/mkm/btc.dart';
-export 'src/mkm/eth.dart';
+export 'src/mkm/address_btc.dart';
+export 'src/mkm/address_eth.dart';
 
 export 'src/mkm/address_factory.dart';
 
@@ -29,7 +29,7 @@ export 'src/mkm/meta_factory.dart';
 //
 export 'src/mkm/document.dart';
 export 'src/mkm/docs.dart';
-export 'src/mkm/document_factory.dart';
+export 'src/mkm/doc_factory.dart';
 
 export 'src/protocol/version.dart';
 export 'src/protocol/docs.dart';

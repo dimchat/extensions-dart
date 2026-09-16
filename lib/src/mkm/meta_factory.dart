@@ -36,8 +36,8 @@ import 'package:dimp/ext.dart';
 
 import '../protocol/version.dart';
 
-import 'btc.dart';
-import 'eth.dart';
+import 'address_btc.dart';
+import 'address_eth.dart';
 import 'meta.dart';
 
 
@@ -64,7 +64,7 @@ class DefaultMeta extends BaseMeta {
   Address generateAddress(int? network) {
     // assert(type == Meta.MKM || type == '1', 'meta type error: $type');
     assert(network != null, 'address type should not be empty');
-    var data = fingerprint?.bytes;
+    final data = fingerprint?.bytes;
     assert(data != null && data.isNotEmpty, 'meta.fingerprint empty');
     // generate BTC address with fingerprint
     return BTCAddress.generate(data!, network!);
@@ -98,7 +98,7 @@ class BTCMeta extends BaseMeta {
     assert(network != null, 'address type should not be empty');
     VerifyKey key = publicKey;
     // TODO: compress public key?
-    var data = key.data.bytes;
+    final data = key.data.bytes;
     assert(data != null && data.isNotEmpty, 'key data empty');
     // generate BTC address with public key data
     return BTCAddress.generate(data!, network!);
@@ -130,7 +130,7 @@ class ETHMeta extends BaseMeta {
     assert(network == EntityType.USER, 'address type error: $network');
     VerifyKey key = publicKey;
     // 64 bytes key data without prefix 0x04
-    var data = key.data.bytes;
+    final data = key.data.bytes;
     assert(data != null && data.isNotEmpty, 'key data empty');
     // generate ETH address with public key data
     return ETHAddress.generate(data!);

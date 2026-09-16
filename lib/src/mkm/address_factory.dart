@@ -33,8 +33,8 @@ import 'package:dimp/ext.dart';
 
 import '../mem/ext.dart';
 
-import 'btc.dart';
-import 'eth.dart';
+import 'address_btc.dart';
+import 'address_eth.dart';
 
 
 /// Base address factory.
@@ -46,7 +46,7 @@ class BaseAddressFactory implements AddressFactory {
 
   @override
   Address? parseAddress(String address) {
-    var cache = sharedAccountExtensions.addressCache;
+    final cache = sharedAccountExtensions.addressCache;
     Address? res = cache.get(address);
     if (res == null) {
       res = parse(address);

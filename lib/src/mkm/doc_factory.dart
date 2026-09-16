@@ -128,7 +128,7 @@ class GeneralDocumentFactory implements DocumentFactory {
     }
 
     // create document for type
-    var helper = sharedAccountExtensions.handler;
+    final helper = sharedAccountExtensions.handler;
     String? docType = helper?.getDocumentType(doc, null);
     switch (docType) {
 
