@@ -1,3 +1,7 @@
+## 2.5.2
+
+- Relocate factories.
+
 ## 2.5.1
 
 - Export BaseContent.

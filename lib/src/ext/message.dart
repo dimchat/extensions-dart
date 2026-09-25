@@ -217,7 +217,7 @@ class GeneralMessageHelper implements MessageHandler,
 
   @override
   SecureMessage createSecureMessage(InstantMessage iMsg, Uint8List ciphertext,
-      Map<ID, EncryptedBundle>? keyBundles) {
+      Mapping<ID, EncryptedBundle>? keyBundles) {
     SecureMessageFactory? factory = getSecureMessageFactory();
     assert(factory != null, 'secure message factory not ready');
     return factory!.createSecureMessage(iMsg, ciphertext, keyBundles);

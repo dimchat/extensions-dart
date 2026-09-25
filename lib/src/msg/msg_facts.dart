@@ -116,7 +116,7 @@ class GeneralInstantMessageFactory implements InstantMessageFactory {
 class GeneralSecureMessageFactory implements SecureMessageFactory {
 
   @override
-  SecureMessage createSecureMessage(InstantMessage iMsg, Uint8List ciphertext, Map<ID, EncryptedBundle>? keyBundles) {
+  SecureMessage createSecureMessage(InstantMessage iMsg, Uint8List ciphertext, Mapping<ID, EncryptedBundle>? keyBundles) {
     final helper = sharedMessageExtensions.handler;
     TransportableData encodedData;
     if (helper!.isBroadcast(iMsg)) {

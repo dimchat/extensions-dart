@@ -45,8 +45,8 @@ class BaseVisa extends BaseDocument implements Visa {
 
   /// Public key for encryption.
   ///
-  /// For safety considerations, the visa.key which used to encrypt
-  /// message data should be different with meta.key.
+  /// For safety considerations, the visa.key which used to encrypt message data
+  /// should be different with meta.key.
   EncryptKey? _key;
 
   /// Avatar URL
@@ -94,7 +94,7 @@ class BaseVisa extends BaseDocument implements Visa {
   TransportableFile? get avatar {
     TransportableFile? img = _image;
     if (img == null) {
-      var uri = getProperty('avatar');
+      final uri = getProperty('avatar');
       img = TransportableFile.parse(uri);
       _image = img;
     }
